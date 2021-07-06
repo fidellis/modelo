@@ -1,0 +1,26 @@
+/*
+.input-container {  
+    display: flex;
+    flex-direction: column;
+}
+*/
+
+/*
+.input-footer{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+  }
+*/
+
+.input-message-error {
+	color: darkred; 
+	font-size: small;
+}
+
+
+  
+
+

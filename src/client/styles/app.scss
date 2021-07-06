@@ -1,0 +1,17 @@
+@import './globals';
+
+a{
+    text-decoration: none;
+}
+
+.link{
+    cursor: pointer;
+}
+
+.nav-container{
+    font-family: $font-family;
+}
+
+.app-container{
+    padding: 12px;
+}

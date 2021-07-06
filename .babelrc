@@ -1,0 +1,76 @@
+{
+  "env": {
+    "server": {
+      "presets": [
+        "react",
+        "flow",
+        [
+          "env",
+          {
+            "targets": {
+              "node": "9.4"
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        "transform-object-rest-spread"
+      ],
+      "ignore": [
+        "node_modules"
+      ]
+    },
+    "production": {
+      "presets": [
+        "flow",
+        "react",
+        "es2015",
+        "stage-0"
+      ],
+      "ignore": [
+        "node_modules"
+      ],
+      "plugins": [
+        "transform-runtime",
+        "transform-decorators-legacy",
+        [
+          "module-resolver",
+          {
+            "root": [
+              "./src/client"
+            ],
+            "alias": {
+              "~": "./src/client"
+            }
+          }
+        ]
+      ]
+    },
+    "development": {
+      "presets": [
+        "flow",
+        "react",
+        "es2015",
+        "stage-0"
+      ],
+      "ignore": [
+        "node_modules"
+      ],
+      "plugins": [
+        "transform-runtime",
+        "transform-decorators-legacy",
+        [
+          "module-resolver",
+          {
+            "root": [
+              "./src/client"
+            ],
+            "alias": {
+              "~": "./src/client"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

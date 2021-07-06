@@ -1,0 +1,15 @@
+@import '../../styles/globals';
+.github-fork-ribbon{
+  position: fixed !important;
+}
+.github-fork-ribbon.desenvolvimento:before{
+  background-color: #43a047 !important;
+}
+
+.github-fork-ribbon.staging:before{
+  background-color: #fb8c00 !important;
+}
+.github-fork-ribbon:before, .github-fork-ribbon:after{
+  height: 2em !important;
+  border: none !important;
+}

@@ -1,0 +1,107 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { message } from '~/store/app';
+import Card from '~/components/Card';
+import Form from '~/components/form/Form';
+import { TextInput, NumberInput, DateInput, Select } from '~/components/form/form';
+import { Grid } from '@material-ui/core';
+import { save, destroy } from '~/lib/api';
+import qs from 'qs';
+import { getModelo } from './modeloHook';
+
+const Component = props => {
+
+  const id = Number(props.match.params.id);
+  const response = getModelo({ id, include: ['usuarioInclusao'] });
+  const [data, setData] = useState(response);
+ 
+  useEffect(() => {
+    setData(response);
+  }, [response]);
+
+
+  function onChange({ id, value }) {
+    setData({ ...data, [id]: value });
+  }
+
+  async function salvar() {
+    const response = await save('/modelo', data);
+    props.message('Salvo com sucesso');
+    atualizar(response.id);
+  }
+
+  async function excluir(id) {
+    if (confirm('Excluir?')) {
+      await destroy(`/modelo/${id}`);
+      props.message('Excluído com sucesso');
+      voltar();
+    }
+  }
+
+  function atualizar(id) {
+    props.history.push(`/modelo/${id}`);
+  }
+
+  function voltar() {
+    props.history.push(`/modelos`);
+  }
+
+    return (
+        <div>
+            <Card width="80%">
+                <Form 
+                    action={salvar}
+                    actions={[
+                        {
+                            type: 'submit',
+                            label: 'Salvar'
+                        },
+                        {
+                            label: 'Excluir',
+                            onClick: () => excluir(id)
+                        },  
+                        {
+                          label: 'Voltar',
+                          onClick: voltar
+                        },
+                    ]}>
+                    <Grid container spacing={2}>
+
+                        <Grid item xs={12}>
+
+                            <TextInput 
+                                id="nome"
+                                label="Nome"
+                                value={data.nome}
+                                onChange={onChange}
+                                required
+                                maxLength={100}
+                                />
+
+                        </Grid>    
+                        
+                        <Grid item xs={3}>
+
+                            <DateInput 
+                                id="dataHoraInclusao"
+                                label="Data"
+                                value={data.dataHoraInclusao}
+                                onChange={onChange}
+                                required
+                                />
+
+                        </Grid>                              
+
+                    </Grid>
+                </Form>
+            </Card>
+        </div>
+    );
+}
+
+Component.propTypes = {};
+const mapStateToProps = ({ app: { usuario } }) => ({ usuario });
+const mapDispatchToProps = ({ message });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Component);

@@ -1,0 +1,15 @@
+.button{
+    background-color: transparent;
+    border: 1px solid #ccc;    
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    min-width: 80px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.button-disabled{
+    background-color: #ccc;  
+    cursor: auto !important;    
+}
