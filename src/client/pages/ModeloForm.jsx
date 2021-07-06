@@ -88,7 +88,6 @@ const Component = props => {
                                 label="Data"
                                 value={data.dataHoraInclusao}
                                 onChange={onChange}
-                                required
                                 />
 
                         </Grid>                              
