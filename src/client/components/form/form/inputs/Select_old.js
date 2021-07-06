@@ -22,7 +22,7 @@ class InputSelect extends PureComponent {
         <Select
           {...inputProps}
           closeMenuOnSelect={!isMulti}
-          value={(isMulti ? options.filter(o => (Array.isArray(value) ? value : [value]).includes(o.value)) : options.find(o => o.value === value)) || ''}
+          value={(isMulti ? options.filter(o => (Array.isArray(value) ? value : [value]).includes(o.value)) : options.find(o => o.value == value)) || ''}
           options={options}
           ignoreAccents
           isMulti={isMulti}

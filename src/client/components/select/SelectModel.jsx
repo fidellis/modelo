@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { getData } from '~/lib/api';
 import { Select } from '~/components/form/form';
 
-const Component = ({ url, params, ...props }) => {
+const Component = ({ url, ...props }) => {
     const [options, setOptions] = useState([]);
 
     async function change(){
-        const data = await getData(url, params);
+        const data = await getData(url);
         setOptions(data);
     }
 
@@ -15,18 +15,15 @@ const Component = ({ url, params, ...props }) => {
     }, [])
 
     return(
-        <select {...props} >
-            {options.map(o => <option>{o.nome}</option>)}
-        </select>
+        <Select {...props} options={options} />
 )};
 
 Component.defaultProps = {
-  url: '/tipoResponsavel',
-  id: 'id',
+  url: '/',
+  id: '',
   label: '',
   optionValue: 'id',
   optionLabel: 'nome',
-  params: { order: ['nome'] }  
 };
 
 export default Component;

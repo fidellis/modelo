@@ -1,25 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { getData } from '~/lib/api';
-import { Select } from '~/components/form/form';
+import React from 'react';
+import Select from './SelectModel';
 
-const Component = ({ url, ...props }) => {
-    const [options, setOptions] = useState([]);
-
-    async function change(){
-        const data = await getData(url);
-        setOptions(data);
-    }
-
-    useEffect(() => {
-        change();
-    }, [])
-
-    return(
-        <Select
-            {...props}
-            options={options}
-        />
-)};
+const Component = props => <Select {...props} />;
 
 Component.defaultProps = {
   url: '/tipo',

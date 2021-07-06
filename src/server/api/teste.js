@@ -16,8 +16,10 @@ module.exports = (router) => {
     };
 
     try {
-      let record = await Teste.find({ where: { nome: data.nome } });
-      if (record && record.id != data.id) return res.status(400).send({ msg: `${record.nome} já cadastrado.` });
+      if(!isNewRecord){
+        let record = await Teste.find({ where: { nome: data.nome } });
+        if (record && record.id != data.id) return res.status(400).send({ msg: `${record.nome} já cadastrado.` });
+      }
       const response = await Teste.build(data, { isNewRecord }).save();
       res.send(response);
     } catch (err) {
