@@ -9,7 +9,7 @@ export function getModelos(params) {
   async function change() {
     setLoading(true);
     const [response] = await Promise.all([
-      getData(params.url || '/modelo', { ...params, ...params.filter, order: ['nome'] }),
+      getData(params.url || '/teste', { ...params, ...params.filter, order: ['nome'] }),
     ]);
     setData(response);
     setLoading(false);
@@ -27,7 +27,7 @@ export function getModelo({ id, ...params }) {
   
     async function change() {
       const [response] = await Promise.all([
-        getData(`/modelo/${id}`, params),
+        getData(`/teste/${id}`, params),
       ]);
       setData(response);
     }

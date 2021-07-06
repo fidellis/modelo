@@ -8,7 +8,7 @@ import { TextInput, NumberInput, DateInput, Select } from '~/components/form/for
 import { Grid } from '@material-ui/core';
 import { save, destroy } from '~/lib/api';
 import qs from 'qs';
-import { getModelo } from './modeloHook';
+import { getModelo } from './testeHook';
 
 const Component = props => {
 
@@ -26,25 +26,29 @@ const Component = props => {
   }
 
   async function salvar() {
-    const response = await save('/modelo', data);
-    props.message('Salvo com sucesso');
-    atualizar(response.id);
+    const response = await save('/teste', data);
+    if(response){
+      props.message('Salvo com sucesso');
+      atualizar(response.id);
+    }
   }
 
   async function excluir(id) {
     if (confirm('Excluir?')) {
-      await destroy(`/modelo/${id}`);
-      props.message('Excluído com sucesso');
-      voltar();
+      const response = await destroy(`/teste/${id}`);
+      if(response){
+        props.message('Excluído com sucesso');
+        voltar();
+      }
     }
   }
 
   function atualizar(id) {
-    props.history.push(`/modelo/${id}`);
+    props.history.push(`/teste/${id}`);
   }
 
   function voltar() {
-    props.history.push(`/modelos`);
+    props.history.push(`/testes`);
   }
 
     return (

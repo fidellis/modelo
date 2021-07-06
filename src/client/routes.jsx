@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Modelos from '~/pages/Modelos';
-import ModeloForm from '~/pages/ModeloForm';
+import Testes from '~/pages/Testes';
+import TesteForm from '~/pages/TesteForm';
 
 function allow({ usuario }) {
   const PREFIXOS_AUTORIZADOS = [9973];
@@ -14,10 +14,10 @@ function allow({ usuario }) {
     MATRICULAS_AUTORIZADAS.includes(usuario.chave);
 }
 const routes = [
-  { path: '/', Component: () => <Redirect to="/modelos" />, exact: true, link: false },
-  { path: '/modelos', label: 'Modelos', Component: Modelos, icon: 'list', allow },
-  { path: '/modelo/:id', label: 'Modelo', Component: ModeloForm, allow, link: false },
-  { path: '/modelos-config', label: 'Configurar Modelos', Component: Modelos, icon: 'settings', allow },
+  { path: '/', Component: () => <Redirect to="/testes" />, exact: true, link: false },
+  { path: '/testes', label: 'Testes', Component: Testes, icon: 'list', allow },
+  { path: '/teste/:id', label: 'Teste', Component: TesteForm, allow, link: false },
+  { path: '/teste-config', label: 'Configurar', Component: Testes, icon: 'settings', allow },
 ];
 
 export function getPages() {

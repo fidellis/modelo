@@ -45,6 +45,10 @@ export const createApi = (url, options) => {
       result = error.toString();
     }
 
+    if (result.msg) {
+      store.dispatch({ type: 'SUCCESS', msg: result.msg });
+    }
+
     console.log('result', result);
 
     return Promise.reject(result);
@@ -71,7 +75,7 @@ export const getPromiseData = async (promises) => {
 
 export const save = async (url, data, params) => {
   const response = await api.post(url, data, { params }).catch(err => console.error(err));
-  return response.data;
+  return response ? response.data : null;
 };
 
 export const destroy = async (url, params) => {

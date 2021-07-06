@@ -2,7 +2,7 @@ import sequelize from 'common/sequelize';
 import Sequelize from 'common/sequelize/sequelize';
 
 const Model = sequelize.define(
-  'Modelo',
+  'Teste',
   {
     id: {
       type: Sequelize.BIGINT,
@@ -43,12 +43,12 @@ const Model = sequelize.define(
   },
   {
     schema: 'teste',
-    tableName: 'modelo',
+    tableName: 'teste',
   },
 );
 
 Model.afterSync(() => Promise.all([
-  Model.upsert({ id: 1, nome: 'Modelo', usuarioInclusao_id: 'F0000000' }),
+  Model.upsert({ id: 1, nome: 'Teste', usuarioInclusao_id: 'F0000000' }),
 ]));
 
 export default Model;
