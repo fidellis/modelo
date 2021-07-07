@@ -10,7 +10,8 @@ Component.defaultProps = {
     style : {
         position: 'fixed', 
         right: 50,
-        bottom: 50
+        bottom: 50,
+        zIndex: 1,
     }
 };
 
