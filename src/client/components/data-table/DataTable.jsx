@@ -30,8 +30,8 @@ class Table extends Component {
               title={title}
               actions={
                 actions.concat([
-                  // exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
-                  exportCsv ? <Button onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" >Exportar</Button> : null,
+                  exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
+                  // exportCsv ? <Button onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" >Exportar</Button> : null,
                   count ? `${filteredRows.length} registros` : null,
                 ])}
             />
