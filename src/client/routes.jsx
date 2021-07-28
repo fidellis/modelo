@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import Testes from '~/pages/Testes';
 import TesteForm from '~/pages/TesteForm';
 
+const isDev = process.env.AMBIENTE !== 'producao';
+
 function allow({ usuario }) {
   const PREFIXOS_AUTORIZADOS = [9973];
   const COMISSOES_AUTORIZADAS = [];

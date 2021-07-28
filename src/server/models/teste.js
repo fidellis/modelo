@@ -1,5 +1,6 @@
 import sequelize from 'common/sequelize';
 import Sequelize from 'common/sequelize/sequelize';
+import Tipo from './tipo';
 
 const Model = sequelize.define(
   'Teste',
@@ -12,6 +13,11 @@ const Model = sequelize.define(
 
     nome: {
       type: Sequelize.STRING(255),
+      allowNull: false,
+    },
+
+    tipo_id: {
+      type: Sequelize.BIGINT,
       allowNull: false,
     },
 
@@ -47,8 +53,6 @@ const Model = sequelize.define(
   },
 );
 
-Model.afterSync(() => Promise.all([
-  Model.upsert({ id: 1, nome: 'Teste', usuarioInclusao_id: 'F0000000' }),
-]));
+Model.belongsTo(Tipo, { as: 'tipo', foreignKey: 'tipo_id' });
 
 export default Model;
