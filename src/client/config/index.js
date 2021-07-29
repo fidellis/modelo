@@ -8,7 +8,7 @@ const commonConfig = { ...config.app, baseUrl: '' };
 const envConfig = {
   desenvolvimento: {
     apiUrl: `http://localhost.bb.com.br:${commonConfig.port}/api`,
-    arquivoUrl: 'localhost.bb.com.br:4003/api/arquivo',
+    arquivoUrl: 'http://localhost.bb.com.br:4003/api/arquivo',
     // arquivoUrl: 'https://diemp2.intranet.bb.com.br/arquivos/api/arquivo',
   },
   producao: {
