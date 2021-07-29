@@ -45,7 +45,7 @@ const Input = ({ value, ...props }) => {
         </IconButton>
       </label>
 
-      {id && <img src={`${config.arquivoUrl}/${id}${props.isDev ? '?token=e8f2f995348cbf163fab7b14aab9270f' : ''}`} width="80%" alt="" />}
+      {id && <img src={`${config.arquivoUrl}/${id}`} width="80%" alt="" />}
     </div>);
 };
 

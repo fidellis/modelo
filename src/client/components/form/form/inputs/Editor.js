@@ -19,7 +19,6 @@ function uploadFile(file) {
 
   return uploadApi.post('/upload/1', formData).then((response) => {
     const { data } = response;
-    // return { data: { id: 1, nome: file.name, link: `${config.arquivoUrl}/${data.id}?token=e8f2f995348cbf163fab7b14aab9270f` } };
     return { data: { id: 1, nome: file.name, link: `${config.arquivoUrl}/${data.id}` } };
   });
 }

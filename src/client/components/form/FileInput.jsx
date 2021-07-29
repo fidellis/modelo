@@ -4,6 +4,7 @@ import api, { uploadApi, getData } from '~/lib/api';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '~/components/Button';
+import ImageArquivos from '~/components/ImageArquivos';
 import { TextInput } from '~/components/form/form';
 
 const useStyles = makeStyles(theme => ({
@@ -17,8 +18,8 @@ const useStyles = makeStyles(theme => ({
   },
   inputName: {
     display: 'flex',
-    alignItems: 'center',
-    width: '100%'
+    // alignItems: 'center',
+    //width: '100%'
   },
   button:{
     marginRight: 5,
@@ -59,26 +60,29 @@ const Input = (props) => {
   };
 
   return (
-    <div className={classes.inputName}>
-      <input
-        onChange={file => uploadFile(file)}
-        className={classes.input}
-        id="contained-button-file"
-        // multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file" className={classes.button}>
-        <Button variant="contained" color="primary" component="span">
-          {props.label}
-        </Button>
-      </label>
+    <div>
+      <div className={classes.inputName}>
+        <input
+          onChange={file => uploadFile(file)}
+          className={classes.input}
+          id="contained-button-file"
+          // multiple
+          type="file"
+        />
+        <label htmlFor="contained-button-file" className={classes.button}>
+          <Button variant="contained" color="primary" component="span">
+            {props.label}
+          </Button>
+        </label>
 
-      <TextInput
-        value={arquivo.nome}
-      />
+        <TextInput
+          value={arquivo.nome}
+        />
 
-      {/* <label htmlFor="input-file" style={styles.label} >{props.label}</label>
-      <input {...props} id="input-file" type="file" onChange={file => uploadFile(file)} style={styles.input} multiple={false} /> */}
+        {/* <label htmlFor="input-file" style={styles.label} >{props.label}</label>
+        <input {...props} id="input-file" type="file" onChange={file => uploadFile(file)} style={styles.input} multiple={false} /> */}
+      </div>
+      {props.showImage && <ImageArquivos imagemId={arquivo.id} />}
     </div>);
 };
 
