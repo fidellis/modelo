@@ -9,7 +9,7 @@ export function getModelos(params) {
   async function change() {
     setLoading(true);
     const [response] = await Promise.all([
-      getData(params.url || '/teste', { ...params, ...params.filter, order: ['nome'] }),
+      getData('/teste', { ...params, order: ['nome'] }),
     ]);
     setData(response);
     setLoading(false);

@@ -56,6 +56,8 @@ export const createApi = (url, options) => {
   return created;
 };
 
+export const uploadApi = createApi(config.arquivoUrl);
+
 const api = createApi(config.apiUrl);
 
 export const getData = async (url, params) => {

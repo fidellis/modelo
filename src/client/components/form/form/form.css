@@ -1,9 +1,13 @@
-/*
+
 .input-container {  
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
 }
-*/
+
+.children-container {
+  width: 100%;
+}
 
 /*
 .input-footer{

@@ -25,19 +25,6 @@ const DateInput = ({ label, onChange, id, value, closeOnSelect, timeFormat, isVa
   </ComponentContainer>
 );
 
-// const DateInput = ({ label, onChange, id, ...props }) => (
-//   <ComponentContainer label={label}>
-//     <input
-//       {...props}
-//       type="date"
-//       id={id}
-//       onChange={e => onChange({ id, value: e.target.value })}
-//       className='input input-date'
-//       /> 
-//   </ComponentContainer>
-// );
-
-
 DateInput.defaultProps = {
   closeOnSelect: true,
   timeFormat: false,

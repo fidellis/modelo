@@ -58,12 +58,18 @@ const Component = props => {
                     action={salvar}
                     actions={[
                         {
+                          label: 'Novo',
+                          onClick: () => atualizar(0),
+                          hide: !id,
+                        }, 
+                        {
                             type: 'submit',
                             label: 'Salvar'
                         },
                         {
                             label: 'Excluir',
-                            onClick: () => excluir(id)
+                            onClick: () => excluir(id),
+                            hide: !id,
                         },  
                         {
                           label: 'Voltar',
