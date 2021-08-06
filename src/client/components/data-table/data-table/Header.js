@@ -36,7 +36,7 @@ const Input = ({ column, onSearch }) => {
       height: '100%',
     },
     input: {
-      width: '90%',
+      width: 'calc(100% - 10px)',
       marginTop: 2,
       marginBottom: 2,
       border: 1,
