@@ -4,7 +4,6 @@ import store from '~/store';
 import { encrypt } from '~/lib/util/encrypt';
 
 const defaultOptions = { withCredentials: true };
-
 const devOptions = process.env.AMBIENTE === 'desenvolvimento' ? {
   headers: {
     Authorization: encrypt() || process.env.DISEM_TOKEN,

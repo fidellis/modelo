@@ -10,9 +10,9 @@ function allow({ usuario }) {
   const PREFIXOS_AUTORIZADOS = [9973];
   const COMISSOES_AUTORIZADAS = [];
   const MATRICULAS_AUTORIZADAS = [];
-  return usuario.isDiemp || 
-    PREFIXOS_AUTORIZADOS.includes(usuario.prefixo) || 
-    COMISSOES_AUTORIZADAS.includes(usuario.comissao_id) || 
+  return usuario.isDiemp ||
+    PREFIXOS_AUTORIZADOS.includes(usuario.prefixo) ||
+    COMISSOES_AUTORIZADAS.includes(usuario.comissao_id) ||
     MATRICULAS_AUTORIZADAS.includes(usuario.chave);
 }
 const routes = [
