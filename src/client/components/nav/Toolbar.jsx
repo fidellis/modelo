@@ -48,7 +48,7 @@ class Nav extends React.Component {
     return (
 
       <div className="toolbar">
-        <div className="logo"><img src="https://disem.intranet.bb.com.br/static/disem/bancodobrasil.png" width="100%" /></div>
+        <div className="logo"><img src="https://diemp2.intranet.bb.com.br/arquivos/api/arquivo/105" width="100%" /></div>
         <div className="toolbar-container">
           <div className="toolbar-title-container">
             {isMobile && <i className="material-icons">menu</i>}
