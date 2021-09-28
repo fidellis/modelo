@@ -3,7 +3,7 @@ import ComponentContainer from './ComponentContainer';
 
 const TextArea = (props) => {
   const { label, maxLength, value, onChange, onBlur, style, ...inputProps } = props;
-  const info = maxLength ? `${value.length} / ${maxLength}` : null;
+  // const info = maxLength ? `${value.length} / ${maxLength}` : null;
   return (
     <ComponentContainer label={label}>
       <textarea

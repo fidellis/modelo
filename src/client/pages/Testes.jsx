@@ -31,30 +31,30 @@ const columns = {
 
 const Component = props => {
   const [data, setData] = useState([]);
-  const [resolucoes, loading] = getModelos({ include: ['usuarioInclusao'] });
+  const [response, loading] = getModelos({ include: ['usuarioInclusao'] });
 
   useEffect(() => {
-    setData(resolucoes);
-  }, [resolucoes]);
+    setData(response);
+  }, [response]);
 
-    return (
-      <div>
-        <DataTable 
-          rows={data}
-          columns={columns}
-          width="90%"
-          onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
-          />
+  return (
+    <div>
+      <DataTable
+        rows={data}
+        columns={columns}
+        width="90%"
+        onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
+      />
 
-        <NavigationButton buttons={[
-          {
-            label: 'Adicionar Teste',
-            onClick: () => props.history.push('/teste/0'),
-          },
-        ]}
-        />
-      </div>
-    );
+      <NavigationButton buttons={[
+        {
+          label: 'Adicionar Teste',
+          onClick: () => props.history.push('/teste/0'),
+        },
+      ]}
+      />
+    </div>
+  );
 }
 
 Component.propTypes = {};

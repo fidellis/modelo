@@ -9,6 +9,7 @@ Component.defaultProps = {
   label: 'Tipo',
   optionValue: 'id',
   optionLabel: 'nome',
+  params: { order: ['nome'] },
 };
 
 export default Component;
