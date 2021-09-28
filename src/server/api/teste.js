@@ -1,9 +1,12 @@
 import sequelize from 'common/sequelize';
-
+import params from 'common/sequelize/params';
 module.exports = (router) => {
 
   router.post('/', async (req, res, next) => {
     const { Teste } = sequelize.models;
+    const modelParams = params(Teste);
+    const reqParams = modelParams(req);
+    console.log('888888888888888888888888888888', reqParams)
     const usuario = req.session.usuario;
     const data = req.body;
     const isNewRecord = !data.id;
@@ -16,7 +19,7 @@ module.exports = (router) => {
     };
 
     try {
-      if(!isNewRecord){
+      if (!isNewRecord) {
         let record = await Teste.find({ where: { nome: data.nome } });
         if (record && record.id != data.id) return res.status(400).send({ msg: `${record.nome} já cadastrado.` });
       }
@@ -25,6 +28,6 @@ module.exports = (router) => {
     } catch (err) {
       next(err);
     }
-    });
+  });
 
 };
