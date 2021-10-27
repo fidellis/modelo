@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import api, { uploadApi, getData } from '~/lib/api';
+import config from '~/config';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '~/components/Button';
 import ImageArquivos from '~/components/ImageArquivos';
+import Icon from '~/components/icons/Icon';
 import { TextInput } from '~/components/form/form';
 
 const useStyles = makeStyles(theme => ({
@@ -18,10 +20,11 @@ const useStyles = makeStyles(theme => ({
   },
   inputName: {
     display: 'flex',
+    alignItems: 'center',
     // alignItems: 'center',
     //width: '100%'
   },
-  button:{
+  button: {
     marginRight: 5,
     marginBottom: 0
   }
@@ -33,12 +36,12 @@ const Input = (props) => {
   const classes = useStyles();
   const [arquivo, setArquivo] = useState({});
 
-  async function getArquivo(){
-    const arquivo = await getData(`/arquivo/arquivo/${props.value}`);    
-    setArquivo(arquivo);
+  async function getArquivo() {
+    const a = await getData(`/arquivo/arquivo/${props.value}`);
+    setArquivo(a);
   }
   useEffect(() => {
-    if(props.value) getArquivo();
+    if (props.value) getArquivo();
   }, [props.value]);
 
   function uploadFile(e) {
@@ -79,6 +82,8 @@ const Input = (props) => {
           value={arquivo.nome}
         />
 
+        <Icon onClick={() => window.open(`${config.arquivoUrl}/${arquivo.id}`)}>search</Icon>
+
         {/* <label htmlFor="input-file" style={styles.label} >{props.label}</label>
         <input {...props} id="input-file" type="file" onChange={file => uploadFile(file)} style={styles.input} multiple={false} /> */}
       </div>
@@ -94,4 +99,4 @@ Input.defaultProps = {
   label: 'Upload',
 };
 
-export default connect(() => {}, { msg })(Input);
+export default connect(() => { }, { msg })(Input);

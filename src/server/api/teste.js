@@ -1,11 +1,10 @@
 import sequelize from 'common/sequelize';
-import paramsConverter from 'common/sequelize/params';
-module.exports = (router) => {
+import paramsConverter from 'common/sequelize/params/converter';
 
+module.exports = (router) => {
   router.post('/', async (req, res, next) => {
     const { Teste } = sequelize.models;
-    const modelParams = paramsConverter(Teste);
-    const params = modelParams(req);
+    const params = paramsConverter(Teste, req);
     const usuario = req.session.usuario;
     const data = req.body;
     const isNewRecord = !data.id;
