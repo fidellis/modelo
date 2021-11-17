@@ -8,7 +8,7 @@ var _converter = require('common/sequelize/params/converter');
 
 var _converter2 = _interopRequireDefault(_converter);
 
-var _db = require('common/db2');
+var _db = require('../db2');
 
 var _db2 = _interopRequireDefault(_db);
 
