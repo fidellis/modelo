@@ -12,6 +12,10 @@ var _sequelize3 = require('common/sequelize/sequelize');
 
 var _sequelize4 = _interopRequireDefault(_sequelize3);
 
+var _version = require('common/sequelize/version');
+
+var _version2 = _interopRequireDefault(_version);
+
 var _tipo = require('./tipo');
 
 var _tipo2 = _interopRequireDefault(_tipo);
@@ -66,5 +70,8 @@ const Model = _sequelize2.default.define('Teste', {
 });
 
 Model.belongsTo(_tipo2.default, { as: 'tipo', foreignKey: 'tipo_id' });
+
+const ModelVersion = new _version2.default(Model);
+ModelVersion.sync();
 
 exports.default = Model;
