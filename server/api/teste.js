@@ -10,7 +10,7 @@ var _converter2 = _interopRequireDefault(_converter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import DB2 from '../db2';
+//import DB2 from '../db2';
 
 // const db2 = new DB2({ user: process.env.DB_DB2_USER, pwd: process.env.DB_DB2_PWD });
 
