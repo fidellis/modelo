@@ -1,12 +1,13 @@
-// require('dotenv').config();
+'use strict';
 
+require('dotenv').config();
 
 // const path = require('path');
 
-// // process.env.IBM_DB_HOME = path.resolve('../drivers');
+// process.env.IBM_DB_HOME = path.resolve('../drivers');
 
-// const ibmdb = require('ibm_db');
-// const logger = require('common/logger');
+const ibmdb = require('ibm_db');
+//const logger = require('common/logger');
 
 // function checkVariables(vars) {
 //   vars.forEach((v) => {
@@ -83,4 +84,3 @@
 
 
 // module.exports = DB2;
-"use strict";
