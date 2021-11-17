@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const path = require('path');
 
-process.env.IBM_DB_HOME = path.resolve('../drivers');
+// process.env.IBM_DB_HOME = path.resolve('../drivers');
 
 const ibmdb = require('ibm_db');
 const logger = require('common/logger');
