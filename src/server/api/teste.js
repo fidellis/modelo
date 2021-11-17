@@ -2,7 +2,7 @@ import sequelize from 'common/sequelize';
 import paramsConverter from 'common/sequelize/params/converter';
 // import DB2 from '../db2';
 
-const db2 = new DB2({ user: process.env.DB_DB2_USER, pwd: process.env.DB_DB2_PWD });
+// const db2 = new DB2({ user: process.env.DB_DB2_USER, pwd: process.env.DB_DB2_PWD });
 
 module.exports = (router) => {
   const { Teste } = sequelize.models;
