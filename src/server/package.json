@@ -9,9 +9,8 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "dependencies": {
     "dotenv": "^6.2.0",
-    "ibm_db": "2.5.3"
+    "ibm_db": "^2.8.0"
   }
 }
