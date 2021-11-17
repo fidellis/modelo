@@ -8,9 +8,11 @@ var _converter = require('common/sequelize/params/converter');
 
 var _converter2 = _interopRequireDefault(_converter);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _db = require('../db2');
 
-// import DB2 from '../db2';
+var _db2 = _interopRequireDefault(_db);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const db2 = new DB2({ user: process.env.DB_DB2_USER, pwd: process.env.DB_DB2_PWD });
 
