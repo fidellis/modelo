@@ -2,7 +2,7 @@ import sequelize from 'common/sequelize';
 import paramsConverter from 'common/sequelize/params/converter';
 import DB2 from '../db2';
 
-// const db2 = new DB2({ user: process.env.DB_DB2_USER, pwd: process.env.DB_DB2_PWD });
+const db2 = new DB2({ user: process.env.DB_DB2_USER, pwd: process.env.DB_DB2_PWD });
 
 module.exports = (router) => {
   const { Teste } = sequelize.models;
@@ -43,22 +43,22 @@ module.exports = (router) => {
     }
   });
 
-  // router.get('/convenio/:numeroConvenio', async (req, res, next) => {
-  //   const { numeroConvenio } = req.params;
-  //   try {
-  //     const sqls = [
-  //       db2.query(`
-  //               SELECT IND.SEGMENTO, IND.IPP, SD.SALDO_DEVEDOR_OPERACOES, SD.QUANTIDADE_OPERACOES, SD.POSICAO_SALDO_DEVEDOR 
-  //               FROM DB2I1B05.ECONSIG_CNV_INDICES IND
-  //               JOIN DB2I1B05.ECONSG_SALDO_DIA SD ON SD.NR_CVN = IND.NR_CVN 
-  //               WHERE IND.NR_CVN = ${numeroConvenio};`),
-  //     ];
+  router.get('/convenio/:numeroConvenio', async (req, res, next) => {
+    const { numeroConvenio } = req.params;
+    try {
+      const sqls = [
+        db2.query(`
+                SELECT IND.SEGMENTO, IND.IPP, SD.SALDO_DEVEDOR_OPERACOES, SD.QUANTIDADE_OPERACOES, SD.POSICAO_SALDO_DEVEDOR 
+                FROM DB2I1B05.ECONSIG_CNV_INDICES IND
+                JOIN DB2I1B05.ECONSG_SALDO_DIA SD ON SD.NR_CVN = IND.NR_CVN 
+                WHERE IND.NR_CVN = ${numeroConvenio};`),
+      ];
 
-  //     const convenio = await Promise.all(sqls.map(sql => sql));
-  //     res.send(convenio);
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // });
+      const convenio = await Promise.all(sqls.map(sql => sql));
+      res.send(convenio);
+    } catch (err) {
+      next(err);
+    }
+  });
 
 };
