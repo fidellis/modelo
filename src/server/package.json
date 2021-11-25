@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.2.0",
-    "ibm_db": "^2.8.0"
+    "ibm_db": "^2.8.0",
+    "puppeteer": "^11.0.0"
   }
 }
