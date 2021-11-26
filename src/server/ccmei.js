@@ -12,9 +12,9 @@ async function start() {
             select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
             from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
             where situacao.cnpj is null and carga = 1;`);
-        console.log('rows', response.rows)
+        // console.log('rows', response.rows)
 
-        const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
+        const browser = await puppeteer.launch({ headless: false, slowMo: 300 });
         const page = await browser.newPage();
         await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
