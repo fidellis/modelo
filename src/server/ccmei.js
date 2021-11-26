@@ -19,9 +19,10 @@ async function get(page, row, i) {
 
         await page.click('#consulta');
         console.log('clicou consulta');
-        await page.waitForNavigation();
+        // await page.waitForNavigation();
         await page.waitForSelector('#btnMaisInfo');
         await page.click('#btnMaisInfo');
+
         await page.waitForSelector('#maisInfo');
         console.log('clicou mais info');
 
@@ -71,13 +72,15 @@ async function get(page, row, i) {
 
         await Promise.all([page.waitForNavigation(), page.click('a[href="/consultaoptantes"]')]);
         // await browser.close();
+
     } catch (error) {
+        await page.screenshot({ path: `/home/henrique/Imagens/ccmei/error_${row.cnpj}.png`, fullPage: true });
         console.log(error)
     }
 }
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: true, slowMo: 200 });
+    const browser = await puppeteer.launch({ headless: false, slowMo: 200 });
     const page = await browser.newPage();
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
@@ -90,7 +93,7 @@ async function start() {
 
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
-            get(page, row, i)
+            await get(page, row, i)
         }, 10000 * i)
     });
 };
