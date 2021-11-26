@@ -29,8 +29,12 @@ async function get(page, row, i) {
             const paineis = document.getElementsByClassName('panel panel-success');
             const painelSituacao = paineis[1];
             const campoSituacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
-            const situacao = campoSituacao.substring(0, 19);
-            if (situacao === 'Enquadrado no SIMEI') dataSituacao = campoSituacao.substring(26);
+            let situacao = campoSituacao.substring(0, 19);
+            if (situacao === 'Enquadrado no SIMEI') {
+                dataSituacao = campoSituacao.substring(26)
+            } else {
+                situacao = campoSituacao;
+            }
             const painelPeriodo = paineis[2];
             const tables = painelPeriodo.getElementsByTagName('table');
             const table = tables[1] || tables[0];
@@ -57,11 +61,11 @@ async function get(page, row, i) {
         await client.query(sqlSituacao);
         console.log(i, sqlSituacao);
         await client.query(sqlPeriodo);
-        console.log(sqlPeriodo);
+        console.log(i, sqlPeriodo);
 
         const path = `/home/henrique/Imagens/ccmei/${row.cnpj}.png`;
         await page.screenshot({ path, fullPage: true });
-        console.log(path)
+        console.log(i, path)
 
         await Promise.all([page.waitForNavigation(), page.click('a[href="/consultaoptantes"]')]);
         // await browser.close();
@@ -71,19 +75,21 @@ async function get(page, row, i) {
 }
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: false, slowMo: 100 });
+    const browser = await puppeteer.launch({ headless: true, slowMo: 250 });
     const page = await browser.newPage();
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
     const response = await client.query(`
             select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
             from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
-            where situacao.cnpj is null and carga = 1;`);
+            where situacao.cnpj is null 
+            and carga = 1 
+            order by cod_cpf_cgc;`);
 
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
             get(page, row, i)
-        }, 8000 * i)
+        }, 12000 * i)
     });
 };
 
