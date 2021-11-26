@@ -31,5 +31,5 @@ const Model = sequelize.define(
         tableName: 'periodo',
     },
 );
-
+Model.sync();
 export default Model;

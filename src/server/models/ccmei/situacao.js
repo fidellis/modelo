@@ -18,5 +18,5 @@ const Model = sequelize.define(
         tableName: 'situacao',
     },
 );
-
+Model.sync();
 export default Model;

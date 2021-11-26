@@ -12,6 +12,7 @@
   "dependencies": {
     "dotenv": "^6.2.0",
     "ibm_db": "^2.8.0",
+    "pg": "^8.7.1",
     "puppeteer": "^11.0.0"
   }
 }
