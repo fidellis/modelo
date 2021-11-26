@@ -14,7 +14,7 @@ async function start() {
             where situacao.cnpj is null and carga = 1;`);
         // console.log('rows', response.rows)
 
-        const browser = await puppeteer.launch({ headless: false, slowMo: 300 });
+        const browser = await puppeteer.launch({ headless: true, slowMo: 300 });
         const page = await browser.newPage();
         await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
