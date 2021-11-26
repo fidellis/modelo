@@ -76,7 +76,7 @@ async function start() {
     const response = await client.query(`
             select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
             from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
-            where situacao.cnpj is null and carga = 1 limit 3;`);
+            where situacao.cnpj is null and carga = 1;`);
 
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
