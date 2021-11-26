@@ -19,48 +19,49 @@ async function get(page, row, i) {
 
         await page.click('#consulta');
 
-        // await page.waitForNavigation({ waitUntil: 'networkidle0' });
-        // // await page.waitForSelector('#btnMaisInfo');
-        // // await page.click('#btnMaisInfo');
+        await page.waitForNavigation();
+        await page.waitForSelector('#btnMaisInfo');
+        await page.click('#btnMaisInfo');
 
-        // const data = await page.evaluate(async ({ row }) => {
-        //     const periodos = [];
-        //     let dataSituacao = '';
-        //     const paineis = document.getElementsByClassName('panel panel-success');
-        //     const painelSituacao = paineis[1];
-        //     const campoSituacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
-        //     const situacao = campoSituacao.substring(0, 19);
-        //     if (situacao === 'Enquadrado no SIMEI') dataSituacao = campoSituacao.substring(26);
-        //     const painelPeriodo = paineis[2];
-        //     const tables = painelPeriodo.getElementsByTagName('table');
-        //     const table = tables[1] || tables[0];
+        const data = await page.evaluate(async ({ row }) => {
+            const periodos = [];
+            let dataSituacao = '';
+            const paineis = document.getElementsByClassName('panel panel-success');
+            const painelSituacao = paineis[1];
+            const campoSituacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
+            const situacao = campoSituacao.substring(0, 19);
+            if (situacao === 'Enquadrado no SIMEI') dataSituacao = campoSituacao.substring(26);
+            const painelPeriodo = paineis[2];
+            const tables = painelPeriodo.getElementsByTagName('table');
+            const table = tables[1] || tables[0];
 
-        //     if (table) {
-        //         const tr = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            if (table) {
+                const tr = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-        //         for (let i = 0; i < tr.length; i++) {
-        //             const td = tr[i].getElementsByTagName('td');
-        //             const periodo = {
-        //                 dataInicio: td[0].innerHTML.trim(),
-        //                 dataFim: td[1].innerHTML.trim(),
-        //                 detalhamento: td[2].innerHTML.trim()
-        //             };
-        //             periodos.push(periodo);
-        //         };
-        //     }
-        //     return { cnpj: row.cnpj, situacao, dataSituacao, periodos }
-        // }, { row });
+                for (let i = 0; i < tr.length; i++) {
+                    const td = tr[i].getElementsByTagName('td');
+                    const periodo = {
+                        dataInicio: td[0].innerHTML.trim(),
+                        dataFim: td[1].innerHTML.trim(),
+                        detalhamento: td[2].innerHTML.trim()
+                    };
+                    periodos.push(periodo);
+                };
+            }
+            return { cnpj: row.cnpj, situacao, dataSituacao, periodos }
+        }, { row });
 
-        // const sqlSituacao = await `INSERT INTO teste.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-DD-MM') : ''}');`;
-        // const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO teste.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
+        const sqlSituacao = await `INSERT INTO teste.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-DD-MM') : ''}');`;
+        const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO teste.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
 
-        // await client.query(sqlSituacao);
-        // console.log(i, sqlSituacao);
-        // await client.query(sqlPeriodo);
-        // console.log(sqlPeriodo);
+        await client.query(sqlSituacao);
+        console.log(i, sqlSituacao);
+        await client.query(sqlPeriodo);
+        console.log(sqlPeriodo);
 
-        await page.screenshot({ path: `C:\\Users\\f4103757\\Pictures\\ccmei\\${row.cnpj}.png`, fullPage: true });
-        console.log(`C:\\Users\\f4103757\\Pictures\\ccmei\\${row.cnpj}.png`)
+        const path = `/home/henrique/Imagens/${row.cnpj}.png`;
+        await page.screenshot({ path, fullPage: true });
+        console.log(path)
 
         await Promise.all([page.waitForNavigation(), page.click('a[href="/consultaoptantes"]')]);
         // await browser.close();
