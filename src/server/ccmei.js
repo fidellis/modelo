@@ -55,9 +55,9 @@ async function get(page, row, i) {
         const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO teste.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
 
         console.log(i, sqlSituacao);
-        // await client.query(sqlSituacao);
+        await client.query(sqlSituacao);
         console.log(sqlPeriodo);
-        // await client.query(sqlPeriodo);
+        await client.query(sqlPeriodo);
 
         await page.screenshot({ path: `C:\\Users\\f4103757\\Pictures\\ccmei\\${row.cnpj}.png`, fullPage: true });
 
