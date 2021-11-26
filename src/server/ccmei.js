@@ -77,7 +77,7 @@ async function get(page, row, i) {
 }
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: true, slowMo: 100 });
+    const browser = await puppeteer.launch({ headless: true, slowMo: 200 });
     const page = await browser.newPage();
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
@@ -91,7 +91,7 @@ async function start() {
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
             get(page, row, i)
-        }, 12000 * i)
+        }, 10000 * i)
     });
 };
 
