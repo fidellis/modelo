@@ -14,7 +14,7 @@ const Model = sequelize.define(
         },
 
         dataSituacao: {
-            type: Sequelize.DATE,
+            type: Sequelize.STRING,
         }
     },
     {
