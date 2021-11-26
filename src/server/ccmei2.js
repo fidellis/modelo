@@ -30,8 +30,8 @@ async function start() {
 
             await page.click('#consulta');
 
-            await page.waitForNavigation();
-            await page.waitForSelector('#btnMaisInfo');
+            // await page.waitForNavigation();
+            // await page.waitForSelector('#btnMaisInfo');
             // await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
             // await page.evaluate(async () => {
