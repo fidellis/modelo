@@ -18,10 +18,12 @@ async function get(page, row, i) {
         }, { row });
 
         await page.click('#consulta');
-
+        console.log('clicou consulta');
         await page.waitForNavigation();
         await page.waitForSelector('#btnMaisInfo');
         await page.click('#btnMaisInfo');
+        await page.waitForSelector('#maisInfo');
+        console.log('clicou mais info');
 
         const data = await page.evaluate(async ({ row }) => {
             const periodos = [];
@@ -84,7 +86,7 @@ async function start() {
             from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
             where situacao.cnpj is null 
             and carga = 1 
-            order by cod_cpf_cgc;`);
+            order by cod_cpf_cgc limit 1000;`);
 
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
