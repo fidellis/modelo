@@ -11,7 +11,7 @@ async function start() {
         const response = await client.query(`
             select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
             from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
-            where situacao.cnpj is null and carga = 1;`);
+            where situacao.cnpj is null and carga = 1 limit 1;`);
         console.log('rows', response.rows)
 
         const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
@@ -34,16 +34,16 @@ async function start() {
                     button.click();
                 });
 
-                // setTimeout(async () => {
                 const data = await page.evaluate(async ({ row }) => {
                     const periodos = [];
-                    const painelIdentificacao = document.getElementsByClassName('panel panel-success')[0];
-                    const cnpj = painelIdentificacao.getElementsByClassName('spanValorVerde')[0].innerHTML;
-                    const painelSituacao = document.getElementsByClassName('panel panel-success')[1];
-                    const situacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
-                    const tables = document.getElementsByTagName('table');
-                    const table = tables[1] || tables[0];
 
+                    const paineis = document.getElementsByClassName('panel panel-success');
+                    const painelSituacao = paineis[1];
+                    const situacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
+                    const painelPeriodo = paineis[2];
+                    const tables = painelPeriodo.getElementsByTagName('table');
+                    const table = tables[1] || tables[0];
+                    console.log('table', table)
                     if (table) {
                         const tr = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
@@ -77,7 +77,7 @@ async function start() {
                     const button = document.getElementsByClassName('btn-verde');
                     button[0].click();
                 });
-                // }, 2000)
+
             }, 5000 * i)
         });
         // await browser.close();
