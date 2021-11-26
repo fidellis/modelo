@@ -12,6 +12,10 @@ const Model = sequelize.define(
         situacao: {
             type: Sequelize.STRING,
         },
+
+        dataSituacao: {
+            type: Sequelize.DATE,
+        }
     },
     {
         schema: 'teste',
