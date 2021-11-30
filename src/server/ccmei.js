@@ -75,12 +75,12 @@ async function get(page, row, i) {
 
     } catch (error) {
         await page.screenshot({ path: `/home/henrique/Imagens/ccmei/error_${row.cnpj}.png`, fullPage: true });
-        console.log(error)
+        console.log(moment(), error)
     }
 }
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: false, slowMo: 200 });
+    const browser = await puppeteer.launch({ headless: true, slowMo: 200 });
     const page = await browser.newPage();
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
@@ -88,9 +88,9 @@ async function start() {
             select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
             from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
             where situacao.cnpj is null 
-            and carga = 1 
-            order by cod_cpf_cgc limit 1000;`);
-
+            -- and carga = 1 
+            order by cod_cpf_cgc;`);
+    console.log('rows', response.rows.length)
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
             await get(page, row, i)
