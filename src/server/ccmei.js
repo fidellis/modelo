@@ -88,7 +88,7 @@ async function start() {
         select LPAD(cast(ccmei.cnpj as varchar),14,'0') as cnpj
         from ccmei.ccmei left join ccmei.situacao on situacao.cnpj = ccmei.ccmei.cnpj 
         where situacao.cnpj is null 
-        order by ccmei.cnpj limit 2;`);
+        order by ccmei.cnpj;`);
     console.log('rows', response.rows.length)
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
