@@ -58,8 +58,8 @@ async function get(page, row, i) {
             return { cnpj: row.cnpj, situacao, dataSituacao, periodos }
         }, { row });
 
-        const sqlSituacao = await `INSERT INTO teste.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-DD-MM') : ''}');`;
-        const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO teste.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
+        const sqlSituacao = await `INSERT INTO ccmei.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-DD-MM') : ''}');`;
+        const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO ccmei.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
 
         await client.query(sqlSituacao);
         console.log(i, sqlSituacao);
@@ -67,8 +67,8 @@ async function get(page, row, i) {
         console.log(i, sqlPeriodo);
 
         const path = `/home/henrique/Imagens/ccmei/${row.cnpj}.png`;
-        await page.screenshot({ path, fullPage: true });
-        console.log(i, path)
+        //await page.screenshot({ path, fullPage: true });
+        // console.log(i, path)
 
         await Promise.all([page.waitForNavigation(), page.click('a[href="/consultaoptantes"]')]);
         // await browser.close();
@@ -85,11 +85,10 @@ async function start() {
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
     const response = await client.query(`
-            select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
-            from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
-            where situacao.cnpj is null 
-            -- and carga = 1 
-            order by cod_cpf_cgc;`);
+        select LPAD(cast(ccmei.cnpj as varchar),14,'0') as cnpj
+        from ccmei.ccmei left join ccmei.situacao on situacao.cnpj = ccmei.ccmei.cnpj 
+        where situacao.cnpj is null 
+        order by ccmei.cnpj limit 2;`);
     console.log('rows', response.rows.length)
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
