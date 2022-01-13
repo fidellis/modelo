@@ -85,15 +85,15 @@ async function start() {
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
     const response = await client.query(`
-        select LPAD(cast(ccmei.cnpj as varchar),14,'0') as cnpj
-        from ccmei.ccmei left join ccmei.situacao on situacao.cnpj = ccmei.ccmei.cnpj 
-        where situacao.cnpj is null 
-        order by ccmei.cnpj;`);
+    select distinct LPAD(cast(ccmei.cnpj as varchar),14,'0') as cnpj
+    from ccmei.ccmei left join ccmei.situacao on situacao.cnpj = ccmei.ccmei.cnpj 
+    where situacao.cnpj is null
+    order by LPAD(cast(ccmei.cnpj as varchar),14,'0');`);
     console.log('rows', response.rows.length)
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
             await get(page, row, i)
-        }, 10000 * i)
+        }, 11000 * i)
     });
 };
 
