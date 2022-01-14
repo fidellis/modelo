@@ -8,7 +8,8 @@ client.connect();
 
 async function get(page, row, i) {
     try {
-
+        const start = Date.now();
+        console.log('***', i, '***');
         await page.evaluate(({ row }) => {
             const input = document.getElementById('Cnpj');
             input.value = row.cnpj;
@@ -18,17 +19,21 @@ async function get(page, row, i) {
         }, { row });
 
         await page.click('#consulta');
-        console.log('clicou consulta');
+        console.log('1 - clicou consulta');
         // await page.waitForNavigation();
-        await page.waitForSelector('#btnMaisInfo');
-        await page.click('#btnMaisInfo');
 
+        await page.waitForSelector('#btnMaisInfo');
+        console.log('2 - abriu consulta');
+        await page.click('#btnMaisInfo');
+        console.log('3 - clicou mais info');
         await page.waitForSelector('#maisInfo');
-        console.log('clicou mais info');
+        console.log('4 - abriu mais info');
 
         const data = await page.evaluate(async ({ row }) => {
             const periodos = [];
             let dataSituacao = '';
+            let cnpj = document.getElementsByClassName('spanValorVerde')[0].innerHTML;
+            cnpj = Number(cnpj.replace('.', '').replace('.', '').replace('/', '').replace('-', ''));
             const paineis = document.getElementsByClassName('panel panel-success');
             const painelSituacao = paineis[1];
             const campoSituacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
@@ -55,23 +60,29 @@ async function get(page, row, i) {
                     periodos.push(periodo);
                 };
             }
-            return { cnpj: row.cnpj, situacao, dataSituacao, periodos }
+            return { cnpj: row.cnpj, cnpjPagina: cnpj, situacao, dataSituacao, periodos }
         }, { row });
 
-        const sqlSituacao = await `INSERT INTO ccmei.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-DD-MM') : ''}');`;
-        const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO ccmei.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
+        if (Number(data.cnpj) === Number(data.cnpjPagina)) {
+            console.log('5 - copiou dados');
+            const sqlSituacao = await `INSERT INTO ccmei.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-MM-DD') : ''}');`;
+            const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO ccmei.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
 
-        await client.query(sqlSituacao);
-        console.log(i, sqlSituacao);
-        await client.query(sqlPeriodo);
-        console.log(i, sqlPeriodo);
+            await client.query(sqlSituacao);
+            console.log('6 - inseriu situacao', sqlSituacao);
+            await client.query(sqlPeriodo);
+            console.log('7 - inseriu periodo', sqlPeriodo);
+        } else {
+            console.log('****************** pulou cnpj', data.cnpj, '***************************')
+        }
 
-        const path = `/home/henrique/Imagens/ccmei/${row.cnpj}.png`;
+        // const path = `/home/henrique/Imagens/ccmei/${row.cnpj}.png`;
         //await page.screenshot({ path, fullPage: true });
         // console.log(i, path)
 
         await Promise.all([page.waitForNavigation(), page.click('a[href="/consultaoptantes"]')]);
         // await browser.close();
+        console.log(`8 - Voltar - ${(Date.now() - start) / 1000}s`)
 
     } catch (error) {
         await page.screenshot({ path: `/home/henrique/Imagens/ccmei/error_${row.cnpj}.png`, fullPage: true });
@@ -93,7 +104,7 @@ async function start() {
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
             await get(page, row, i)
-        }, 11000 * i)
+        }, 15000 * i)
     });
 };
 
