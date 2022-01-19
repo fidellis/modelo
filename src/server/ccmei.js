@@ -8,7 +8,8 @@ client.connect();
 
 async function get(page, row, i) {
     try {
-
+        const start = Date.now();
+        console.log('***', i, '***');
         await page.evaluate(({ row }) => {
             const input = document.getElementById('Cnpj');
             input.value = row.cnpj;
@@ -18,71 +19,92 @@ async function get(page, row, i) {
         }, { row });
 
         await page.click('#consulta');
+        console.log('1 - clicou consulta');
+        // await page.waitForNavigation();
 
-        // await page.waitForNavigation({ waitUntil: 'networkidle0' });
-        // // await page.waitForSelector('#btnMaisInfo');
-        // // await page.click('#btnMaisInfo');
+        await page.waitForSelector('#btnMaisInfo');
+        console.log('2 - abriu consulta');
+        await page.click('#btnMaisInfo');
+        console.log('3 - clicou mais info');
+        await page.waitForSelector('#maisInfo');
+        console.log('4 - abriu mais info');
 
-        // const data = await page.evaluate(async ({ row }) => {
-        //     const periodos = [];
-        //     let dataSituacao = '';
-        //     const paineis = document.getElementsByClassName('panel panel-success');
-        //     const painelSituacao = paineis[1];
-        //     const campoSituacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
-        //     const situacao = campoSituacao.substring(0, 19);
-        //     if (situacao === 'Enquadrado no SIMEI') dataSituacao = campoSituacao.substring(26);
-        //     const painelPeriodo = paineis[2];
-        //     const tables = painelPeriodo.getElementsByTagName('table');
-        //     const table = tables[1] || tables[0];
+        const data = await page.evaluate(async ({ row }) => {
+            const periodos = [];
+            let dataSituacao = '';
+            let cnpj = document.getElementsByClassName('spanValorVerde')[0].innerHTML;
+            cnpj = Number(cnpj.replace('.', '').replace('.', '').replace('/', '').replace('-', ''));
+            const paineis = document.getElementsByClassName('panel panel-success');
+            const painelSituacao = paineis[1];
+            const campoSituacao = painelSituacao.getElementsByClassName('spanValorVerde')[1].innerHTML;
+            let situacao = campoSituacao.substring(0, 19);
+            if (situacao === 'Enquadrado no SIMEI') {
+                dataSituacao = campoSituacao.substring(26)
+            } else {
+                situacao = campoSituacao;
+            }
+            const painelPeriodo = paineis[2];
+            const tables = painelPeriodo.getElementsByTagName('table');
+            const table = tables[1] || tables[0];
 
-        //     if (table) {
-        //         const tr = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            if (table) {
+                const tr = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-        //         for (let i = 0; i < tr.length; i++) {
-        //             const td = tr[i].getElementsByTagName('td');
-        //             const periodo = {
-        //                 dataInicio: td[0].innerHTML.trim(),
-        //                 dataFim: td[1].innerHTML.trim(),
-        //                 detalhamento: td[2].innerHTML.trim()
-        //             };
-        //             periodos.push(periodo);
-        //         };
-        //     }
-        //     return { cnpj: row.cnpj, situacao, dataSituacao, periodos }
-        // }, { row });
+                for (let i = 0; i < tr.length; i++) {
+                    const td = tr[i].getElementsByTagName('td');
+                    const periodo = {
+                        dataInicio: td[0].innerHTML.trim(),
+                        dataFim: td[1].innerHTML.trim(),
+                        detalhamento: td[2].innerHTML.trim()
+                    };
+                    periodos.push(periodo);
+                };
+            }
+            return { cnpj: row.cnpj, cnpjPagina: cnpj, situacao, dataSituacao, periodos }
+        }, { row });
 
-        // const sqlSituacao = await `INSERT INTO teste.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-DD-MM') : ''}');`;
-        // const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO teste.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
+        if (Number(data.cnpj) === Number(data.cnpjPagina)) {
+            console.log('5 - copiou dados');
+            const sqlSituacao = await `INSERT INTO ccmei.situacao(cnpj, situacao, data_situacao) VALUES(${data.cnpj}, '${data.situacao}', '${data.dataSituacao ? moment(data.dataSituacao, 'DD/MM/YYYY').format('YYYY-MM-DD') : ''}');`;
+            const sqlPeriodo = await data.periodos.map(periodo => (`INSERT INTO ccmei.periodo (cnpj, data_inicio, data_fim, detalhamento) VALUES(${data.cnpj}, '${moment(periodo.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${moment(periodo.dataFim, 'DD/MM/YYYY').format('YYYY-MM-DD')}', '${periodo.detalhamento}');`)).join(' ');
 
-        // await client.query(sqlSituacao);
-        // console.log(i, sqlSituacao);
-        // await client.query(sqlPeriodo);
-        // console.log(sqlPeriodo);
+            await client.query(sqlSituacao);
+            console.log('6 - inseriu situacao', sqlSituacao);
+            await client.query(sqlPeriodo);
+            console.log('7 - inseriu periodo', sqlPeriodo);
+        } else {
+            console.log('****************** pulou cnpj', data.cnpj, '***************************')
+        }
 
-        await page.screenshot({ path: `C:\\Users\\f4103757\\Pictures\\ccmei\\${row.cnpj}.png`, fullPage: true });
-        console.log(`C:\\Users\\f4103757\\Pictures\\ccmei\\${row.cnpj}.png`)
+        // const path = `/home/henrique/Imagens/ccmei/${row.cnpj}.png`;
+        //await page.screenshot({ path, fullPage: true });
+        // console.log(i, path)
 
         await Promise.all([page.waitForNavigation(), page.click('a[href="/consultaoptantes"]')]);
         // await browser.close();
+        console.log(`8 - Voltar - ${(Date.now() - start) / 1000}s`)
+
     } catch (error) {
-        console.log(error)
+        await page.screenshot({ path: `/home/henrique/Imagens/ccmei/error_${row.cnpj}.png`, fullPage: true });
+        console.log(moment(), error)
     }
 }
 
 async function start() {
-    const browser = await puppeteer.launch({ headless: true, slowMo: 100 });
+    const browser = await puppeteer.launch({ headless: true, slowMo: 200 });
     const page = await browser.newPage();
     await page.goto('https://consopt.www8.receita.fazenda.gov.br/consultaoptantes');
 
     const response = await client.query(`
-            select LPAD(cast(cod_cpf_cgc as varchar),14,'0') as cnpj
-            from ccmei.ccmei left join teste.situacao on situacao.cnpj = ccmei.ccmei.cod_cpf_cgc 
-            where situacao.cnpj is null and carga = 1 limit 1;`);
-
+    select distinct LPAD(cast(ccmei.cnpj as varchar),14,'0') as cnpj
+    from ccmei.ccmei left join ccmei.situacao on situacao.cnpj = ccmei.ccmei.cnpj 
+    where situacao.cnpj is null
+    order by LPAD(cast(ccmei.cnpj as varchar),14,'0');`);
+    console.log('rows', response.rows.length)
     response.rows.forEach(async (row, i) => {
         setTimeout(async () => {
-            get(page, row, i)
-        }, 8000 * i)
+            await get(page, row, i)
+        }, 15000 * i)
     });
 };
 
