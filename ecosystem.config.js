@@ -4,19 +4,20 @@ const env = process.env;
 const basePath = '/dados/app';
 const appPath = `${basePath}/${package.app.path}`;
 
-function postDeploy(ambiente){
-  return [
-    'source ~/.bash_profile',
-    'cd server',
-    'ls -al',
-    // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} yarn install --production=true`,
-    // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} npm install --only=production`,
-    'yarn link common',
-    'cd ..',
-    'ls -al',
-    `pm2 startOrReload ecosystem.config.js --env ${ambiente} --update-env --no-autorestart`,
-    // `pm2 logs ${package.app.name} --lines 20 --nostream`,
-  ].join(' && ')
+function postDeploy(ambiente) {
+  return []
+  // return [
+  //   'source ~/.bash_profile',
+  //   'cd server',
+  //   'ls -al',
+  //   // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} yarn install --production=true`,
+  //   // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} npm install --only=production`,
+  //   'yarn link common',
+  //   'cd ..',
+  //   'ls -al',
+  //   `pm2 startOrReload ecosystem.config.js --env ${ambiente} --update-env --no-autorestart`,
+  //   // `pm2 logs ${package.app.name} --lines 20 --nostream`,
+  // ].join(' && ')
 }
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
     {
       name: package.app.name,
       script: './server/index.js',
-      instances : 1,
+      instances: 1,
       error_file: `${appPath}/logs/err.log`,
       out_file: `${appPath}/logs/out.log`,
       env: {
@@ -78,7 +79,7 @@ module.exports = {
       ref: 'origin/staging',
       repo: package.repository.url,
       path: appPath,
-     'post-deploy': postDeploy('staging'),
+      'post-deploy': postDeploy('staging'),
     },
   },
 };
