@@ -28,27 +28,27 @@ module.exports = {
   apps: [
 
     // First application
-    {
-      name: package.app.name,
-      script: './server/index.js',
-      instances: 1,
-      error_file: `${appPath}/logs/err.log`,
-      out_file: `${appPath}/logs/out.log`,
-      env: {
-        NODE_ENV: 'production',
-      },
-      env_production: {
-        AMBIENTE: 'producao',
-        DB_USER: env.DB_USER,
-        DB_PWD: env.DB_PWD,
-      },
-      env_staging: {
-        AMBIENTE: 'staging',
-        DB_USER: env.DB_USER,
-        DB_PWD: env.DB_PWD,
-        DB_HOST: 'localhost',
-      },
-    },
+    // {
+    //   name: package.app.name,
+    //   script: './server/index.js',
+    //   instances: 1,
+    //   error_file: `${appPath}/logs/err.log`,
+    //   out_file: `${appPath}/logs/out.log`,
+    //   env: {
+    //     NODE_ENV: 'production',
+    //   },
+    //   env_production: {
+    //     AMBIENTE: 'producao',
+    //     DB_USER: env.DB_USER,
+    //     DB_PWD: env.DB_PWD,
+    //   },
+    //   env_staging: {
+    //     AMBIENTE: 'staging',
+    //     DB_USER: env.DB_USER,
+    //     DB_PWD: env.DB_PWD,
+    //     DB_HOST: 'localhost',
+    //   },
+    // },
     // {
     //   name: package.app.name + '-jobs',
     //   script: './scripts/jobs/index.js',
@@ -71,7 +71,7 @@ module.exports = {
       ref: 'origin/master',
       repo: package.repository.url,
       path: appPath,
-      'post-deploy': postDeploy('production'),
+      // 'post-deploy': postDeploy('production'),
     },
     staging: {
       user: env.WS_USER,

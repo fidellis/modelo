@@ -25,7 +25,7 @@ const Model = _sequelize2.default.define('Situacao', {
     },
 
     dataSituacao: {
-        type: _sequelize4.default.DATE
+        type: _sequelize4.default.STRING
     }
 }, {
     schema: 'teste',
