@@ -102,28 +102,7 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "scripts": {
-    "start": "npm-run-all -p start:client start:server",
-    "start:client": "node scripts/start.js",
-    "start:server": "nodemon --exec \"npm run start:build:server\" --watch src/server --watch ../common -e js,jsx --ignore node_modules/ --ignore ../common/node_modules",
-    "start:build:server": "babel-node src/server -i node_modules/",
-    "predeploy": "npm run build && npm run build:server && npm run release",
-    "build": "cross-env AMBIENTE=producao cross-env NODE_ENV=production webpack --config config/webpack.config.prod.js --progress --colors",
-    "build:server": "node scripts/prebuild-server.js && cross-env BABEL_ENV=server babel src/server -d server --ignore node_modules/ && cp src/server/package.json server/",
-    "release": "yarn version --new-version patch",
-    "preversion": "npm run test",
-    "test": "echo 'teste'",
-    "version": "git add --all",
-    "postversion": "git push origin",
-    "deploy": "pm2 deploy production",
-    "deploy:setup": "pm2 deploy production setup",
-    "postinstall": "yarn link common",
-    "prestaging": "npm run build:staging && npm run build:server && npm run release",
-    "build:staging": "AMBIENTE=staging NODE_ENV=production webpack --config config/webpack.config.staging.js --progress --colors",
-    "staging": "pm2 deploy staging",
-    "postupgrade": "yarn postinstall",
-    "runjob": "node scripts/runjob.js",
-    "deploy:server": "pm2 deploy production",
-    "predeploy:server": "npm run build:server"
+    "deploy": "pm2 deploy production"
   },
   "repository": {
     "url": "git@disem5.intranet.bb.com.br:infor/modelo.git"
