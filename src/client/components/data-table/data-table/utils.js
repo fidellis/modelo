@@ -143,7 +143,7 @@ export function getColumnsGroup(c) {
 }
 
 export function exportCsv(data, filename = 'data-csv') {
-  let csvContent = 'data:text/csv;charset=utf-8,';
+  let csvContent = 'data:text/csv;charset=utf-8,\uFEFF';
   const keys = Object.keys(data[0]).filter(k => k);
   csvContent += `${keys.join(';')};\r\n`;
   data.forEach((d) => {
