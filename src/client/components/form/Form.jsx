@@ -60,7 +60,7 @@ class Formulario extends Component {
     return (
 
       <div style={{ ...styles.container, width }}>
-        {/* {showLoading && <Loading />} */}
+        {showLoading && <Loading />}
         <Form
           {...props}
           isValid={v => this.setState({ isValid: v }, () => (isValid ? isValid(v) : null))}
@@ -91,4 +91,4 @@ Formulario.defaultProps = {
 };
 
 const mapStateToProps = ({ app: { showLoading } }) => ({ showLoading });
-export default connect(mapStateToProps, { msg })(Formulario);
+export default connect(() => { }, { msg })(Formulario);
