@@ -4,13 +4,17 @@ const env = process.env;
 const basePath = '/dados/app';
 const appPath = `${basePath}/${package.app.path}`;
 
+const HOSTS = [
+  env.WS_HOST,
+  //'172.16.13.158',
+]
+
 function postDeploy(ambiente) {
   return [
     'source ~/.bash_profile',
     'cd server',
     'ls -al',
-    `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} yarn install --production=true`,
-    // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} npm install --only=production`,
+    // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} yarn install --production=true`,    
     'yarn link common',
     'cd ..',
     'ls -al',
@@ -25,6 +29,7 @@ module.exports = {
    * http://pm2.keymetrics.io/docs/usage/application-declaration/
    */
   apps: [
+
     // First application
     {
       name: package.app.name,
@@ -64,11 +69,11 @@ module.exports = {
   deploy: {
     production: {
       user: env.WS_USER,
-      host: env.WS_HOST,
+      host: HOSTS,
       ref: 'origin/master',
       repo: package.repository.url,
       path: appPath,
-      // 'post-deploy': postDeploy('production'),
+      'post-deploy': postDeploy('production'),
     },
     staging: {
       user: env.WS_USER,
