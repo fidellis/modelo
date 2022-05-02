@@ -6,7 +6,6 @@ import draftToHtml from 'draftjs-to-html';
 // import htmlToDraft from 'html-to-draftjs';
 import { uploadApi } from '~/lib/api';
 import config from '~/config';
-import { ARQUIVO_URL } from '~/lib/constants';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 function createMarkup(text) {
@@ -96,7 +95,7 @@ class DraftJs extends React.Component {
       new: true,
     };
 
-    
+
 
     this.setEditor = (editor) => {
       this.editor = editor;
@@ -113,16 +112,16 @@ class DraftJs extends React.Component {
   componentWillReceiveProps({ value }) {
     if (value !== this.props.value && this.state.new) {
       this.setState({ editorState: toEditorState(value), new: false }, () => {
-          this.onChange(this.state.editorState)
-        });
+        this.onChange(this.state.editorState)
+      });
     }
   }
 
   onChange = editorState => this.setState({ editorState }, () => this.props.onChange({
-      content: toContentString(this.state.editorState),
-      html: toHtml(this.state.editorState),
-      text: toText(this.state.editorState),
-    }));
+    content: toContentString(this.state.editorState),
+    html: toHtml(this.state.editorState),
+    text: toText(this.state.editorState),
+  }));
 
   render() {
     return (

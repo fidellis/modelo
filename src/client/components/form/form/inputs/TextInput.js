@@ -11,11 +11,12 @@ class TextInput extends Component {
   }
 
   render() {
-    const { label, maxLength, value, onChange, info, onBlur, ...props } = this.props;
+    const { label, maxLength, value, onChange, info, onBlur, textAlign, ...props } = this.props;
     // const info = maxLength ? `${value.length} / ${maxLength}` : null;
     return (
       <ComponentContainer label={label} info={info}>
         <input
+          style={{ textAlign }}
           {...props}
           value={value}
           maxLength={maxLength}

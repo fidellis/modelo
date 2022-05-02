@@ -101,9 +101,12 @@ class DataTable extends Component {
   }
 
   onSearch({ value, column }) {
-    const { getRows } = this.props;
+    const { getRows, getColumns } = this.props;
     column.searchValue = value;
-    this.setState({ rows: this.getRows() }, () => (getRows ? getRows(this.state.rows) : null));
+    this.setState({ rows: this.getRows() }, () => {
+      if (getRows) getRows(this.state.rows);
+      if (getColumns) getColumns(this.columns);
+    });
   }
 
   onSort(column) {
@@ -173,24 +176,26 @@ class DataTable extends Component {
   render() {
     const { width, height, maxHeight, toolbar, loading } = this.props;
     const { contentHeight } = this.state;
+    const screenHeight = window.screen.height - 200;
 
     return (
       <div style={{ width, marginLeft: 'auto', marginRight: 'auto' }}>
         {toolbar}
-        <div style={{ height: height || (contentHeight < maxHeight ? contentHeight : maxHeight) }} >
-          {loading ? <Loading /> :
+        <div style={{ height: height || (screenHeight < maxHeight ? screenHeight : maxHeight) }} >
+          {/* {loading && <Loading />} */}
           <AutoSizer key="table">
-              {({ width }) => (
+            {({ width }) => (
               <Table
-                  {...this.props}
-                  width={width}
-                  rowsCount={this.state.rows.length}
-                  onContentHeightChange={h => this.setState({ contentHeight: h })}
-                >
-                  {this.renderColumns()}
-                </Table>
-              )}
-            </AutoSizer>}
+                {...this.props}
+                width={width}
+                rowsCount={this.state.rows.length}
+                onContentHeightChange={h => this.setState({ contentHeight: h })}
+                maxHeight={screenHeight < maxHeight ? screenHeight : maxHeight}
+              >
+                {this.renderColumns()}
+              </Table>
+            )}
+          </AutoSizer>
         </div>
       </div>
     );
@@ -212,7 +217,7 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
   columns: {},
   rows: [],
-  maxHeight: 850,
+  maxHeight: 747,
   headerHeight: 70,
   rowHeight: 40,
   groupHeaderHeight: 40,
@@ -221,6 +226,7 @@ DataTable.defaultProps = {
   loading: false,
   getRows: null,
   onClick: null,
+  footerHeight: 0,
 };
 
 export default DataTable;

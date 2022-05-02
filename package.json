@@ -13,6 +13,7 @@
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
     "app-module-path": "^2.2.0",
+    "awesome-debounce-promise": "^2.1.0",
     "axios": "^0.16.1",
     "babel-eslint": "7.1.1",
     "babel-polyfill": "^6.26.0",
@@ -102,7 +103,29 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "scripts": {
-    "deploy": "pm2 deploy production"
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
+    "lint": "yarn run lint:scripts",
+    "lint:dev": "nodemon --exec \"yarn lint\"",
+    "lint:fix": "eslint -c .eslintrc --fix src",
+    "start:server": "nodemon --exec \"npm run start:build:server\" --watch src/server -e js,jsx",
+    "start:client": "node scripts/start.js",
+    "start:build:server": "babel-node src/server -i node_modules/",
+    "start": "npm-run-all -p start:client start:server",
+    "deploy": "pm2 deploy production",
+    "staging": "pm2 deploy staging",
+    "predeploy": "npm run test && npm run build:server && npm run release",
+    "prestaging": " npm run test && npm run build:server && npm run release",
+    "upgrade": "yarn upgrade ssh://disem7.intranet.bb.com.br:29418/common.git",
+    "upgrade:server": "cd server && yarn run upgrade",
+    "build:server": "node scripts/prebuild-server.js && cross-env BABEL_ENV=server babel src/server -d server --ignore node_modules/ && cp src/server/package.json server/",
+    "test": "echo ''",
+    "release": "yarn version --new-version patch",
+    "preversion": "npm run test",
+    "version": "git add --all",
+    "postversion": "git push origin",
+    "postinstall": "yarn link common",
+    "runjob": "node scripts/runjob.js"
   },
   "repository": {
     "url": "git@disem5.intranet.bb.com.br:infor/modelo.git"

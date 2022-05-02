@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from '~/components/form/form';
+import { TextInput } from '~/components/form/form/inputs';
 import { filtra } from '~/lib/filters';
 
 

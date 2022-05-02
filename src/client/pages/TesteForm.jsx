@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { message } from '~/store/app';
 import Card from '~/components/Card';
 import Form from '~/components/form/Form';
-import { TextInput, NumberInput, DateInput, Select } from '~/components/form/form';
+import { TextInput, NumberInput, DateInput, Select } from '~/components/form/form/inputs';
 import SelectTipo from '~/components/select/SelectTipo';
 import { Grid } from '@material-ui/core';
 import { save, destroy } from '~/lib/api';

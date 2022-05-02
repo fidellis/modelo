@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getData } from '~/lib/api';
-import { Select } from '~/components/form/form';
+import { Select } from '~/components/form/form/inputs';
 
 const Component = ({ url, params, ...props }) => {
     const [options, setOptions] = useState([]);

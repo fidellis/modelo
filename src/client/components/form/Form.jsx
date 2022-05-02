@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import Form, { Button } from '~/components/form/form';
-import Form from './form';
+import Form from './form/Form';
 import Button from '~/components/Button';
 import PropTypes from 'prop-types';
+import Progress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 
 export const msg = txt => dispatch => dispatch({ type: 'SUCCESS', msg: txt });
@@ -10,7 +10,7 @@ export const msg = txt => dispatch => dispatch({ type: 'SUCCESS', msg: txt });
 const styles = {
   container: {
     marginLeft: 'auto',
-    marginRight: 'auto' 
+    marginRight: 'auto'
   },
   button: {
     marginRight: 5,
@@ -39,7 +39,8 @@ class Formulario extends Component {
             message: (message, callback) => {
               if (message) this.props.msg(message);
               if (callback) callback();
-            } });
+            }
+          });
         }
       });
     } else if (onClick) {
@@ -48,15 +49,18 @@ class Formulario extends Component {
         message: (message, callback) => {
           if (message) this.props.msg(message);
           if (callback) callback();
-        } });
+        }
+      });
     }
   }
 
   render() {
-    const { children, isValid, actions, width, ...props } = this.props;
+    const { children, isValid, actions, width, showLoading, loading, ...props } = this.props;
 
     return (
+
       <div style={{ ...styles.container, width }}>
+        {(showLoading || loading) && <center style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 9999 }}><Progress /></center>}
         <Form
           {...props}
           isValid={v => this.setState({ isValid: v }, () => (isValid ? isValid(v) : null))}
@@ -68,7 +72,6 @@ class Formulario extends Component {
           {actions.filter(a => a.hide !== true).map(({ label, ...actionProps }) => <Button {...actionProps} key={label} onClick={() => this.onClickAction({ label, ...actionProps })} style={styles.button} >{label}</Button>)}
         </div>
       </div>
-
     );
   }
 }
@@ -87,4 +90,5 @@ Formulario.defaultProps = {
   submited: false,
 };
 
-export default connect(() => {}, { msg })(Formulario);
+const mapStateToProps = ({ app: { showLoading } }) => ({ showLoading });
+export default connect(() => { }, { msg })(Formulario);

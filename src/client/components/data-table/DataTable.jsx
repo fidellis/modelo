@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import DataTable, { onExportCsv } from '~/components/data-table/data-table';
 import ToolBar from './data-table/ToolBar';
 import PropTypes from 'prop-types';
 import { isMobile } from 'react-device-detect';
+import { setColumns } from "~/store/table";
 import Button from '~/components/Button';
+import Icon from '~/components/icons/Icon';
+import Progress from '@material-ui/core/CircularProgress';
 import exportIcon from './arrow_downward.svg';
 
+function mergeColumns(c, filters) {
+  const columns = {};
+  Object.keys(c).forEach(key => {
+    const filter = filters[key] || {};
+    columns[key] = {
+      ...c[key],
+      searchValue: filter.searchValue,
+    }
+  });
+  return columns;
+}
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -14,30 +29,33 @@ class Table extends Component {
       filteredRows: props.rows,
     };
   }
+
   render() {
-    const { columns, title, actions, exportCsv, count, width, ...props } = this.props;
+    const { columns, filters, title, actions, exportCsv, exportCsv2, count, width, showLoading, loading, ...props } = this.props;
     const { filteredRows } = this.state;
 
     return (
       <div>
+        {(showLoading || loading) && <center style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 9999 }}><Progress /></center>}
         <DataTable
           {...props}
           width={isMobile ? '100%' : width}
-          columns={columns}
+          columns={mergeColumns(columns, filters)}
           getRows={r => this.setState({ filteredRows: r })}
+          getColumns={c => this.props.setColumns(c)}
           toolbar={
             <ToolBar
               title={title}
               actions={
                 actions.concat([
-                  exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
-                  // exportCsv ? <Button onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" >Exportar</Button> : null,
-                  count ? `${filteredRows.length} registros` : null,
+                  // exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
+                  exportCsv2 ? <Button variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" >Exportar</Button> : null,
+                  exportCsv ? <Icon variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar CSV" >download</Icon> : null,
+                  count ? <Button variant="" >{`${filteredRows.length} registros`}</Button> : null,
                 ])}
             />
           }
         />
-        <br />
       </div>
     );
   }
@@ -45,11 +63,14 @@ class Table extends Component {
 
 Table.propTypes = {
   columns: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
+  width: PropTypes.number,
   title: PropTypes.string,
   actions: PropTypes.array.isRequired,
   exportCsv: PropTypes.bool,
   count: PropTypes.bool,
+  setColumns: PropTypes.func,
 };
 
 Table.defaultProps = {
@@ -57,10 +78,15 @@ Table.defaultProps = {
   actions: [],
   exportCsv: false,
   count: false,
-  maxHeight: 700,
+  // maxHeight: 700,
   headerStyle: { background: '#617D8A', color: '#FFFFFF' },
   touchScrollEnabled: true,
+  setColumns: null,
+  width: '100%',
   // headerStyle: { background: '#f8d117', color: '#215197' },
 };
 
-export default Table;
+const mapStateToProps = ({ table: { columns }, app: { showLoading } }) => ({ filters: columns, showLoading });
+const mapDispatchToProps = ({ setColumns });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
