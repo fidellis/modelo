@@ -7,7 +7,7 @@ import { isMobile } from 'react-device-detect';
 import { setColumns } from "~/store/table";
 import Button from '~/components/Button';
 import Icon from '~/components/icons/Icon';
-import Progress from '@material-ui/core/CircularProgress';
+import Loading from '~/components/Loading';
 import exportIcon from './arrow_downward.svg';
 
 function mergeColumns(c, filters) {
@@ -36,7 +36,7 @@ class Table extends Component {
 
     return (
       <div>
-        {(showLoading || loading) && <center style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 9999 }}><Progress /></center>}
+        {(showLoading || loading) && <Loading />}
         <DataTable
           {...props}
           width={isMobile ? '100%' : width}
@@ -49,7 +49,6 @@ class Table extends Component {
               actions={
                 actions.concat([
                   // exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
-                  exportCsv2 ? <Button variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" >Exportar</Button> : null,
                   exportCsv ? <Icon variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar CSV" >download</Icon> : null,
                   count ? <Button variant="" >{`${filteredRows.length} registros`}</Button> : null,
                 ])}

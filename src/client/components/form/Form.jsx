@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Form from './form/Form';
 import Button from '~/components/Button';
-import PropTypes from 'prop-types';
-import Progress from '@material-ui/core/CircularProgress';
+import Loading from '~/components/Loading';
 import { connect } from 'react-redux';
 
 export const msg = txt => dispatch => dispatch({ type: 'SUCCESS', msg: txt });
@@ -56,11 +56,11 @@ class Formulario extends Component {
 
   render() {
     const { children, isValid, actions, width, showLoading, ...props } = this.props;
-    console.log('showLoading', showLoading)
+
     return (
 
       <div style={{ ...styles.container, width }}>
-        {showLoading && <center style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 9999 }}><Progress /></center>}
+        {showLoading && <Loading />}
         <Form
           {...props}
           isValid={v => this.setState({ isValid: v }, () => (isValid ? isValid(v) : null))}
