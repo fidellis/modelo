@@ -6,7 +6,7 @@ import DataTable from '~/components/data-table/DataTable';
 import Aviso from '~/components/message/Aviso';
 import Button from '~/components/Button';
 import NavigationButton from '~/components/NavigationButton';
-import { getModelos, getUserConfig } from './testeHook';
+import { getRows } from './hook';
 
 const columns = {
   id: {
@@ -31,7 +31,7 @@ const columns = {
 
 const Component = props => {
   const [data, setData] = useState([]);
-  const [response, loading] = getModelos({ include: ['usuarioInclusao'] });
+  const response = getRows({ include: ['usuarioInclusao'] });
 
   useEffect(() => {
     setData(response);
@@ -40,6 +40,7 @@ const Component = props => {
   return (
     <div>
       <DataTable
+        // loading={loading}
         rows={data}
         columns={columns}
         width="90%"

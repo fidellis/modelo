@@ -55,12 +55,12 @@ class Formulario extends Component {
   }
 
   render() {
-    const { children, isValid, actions, width, showLoading, loading, ...props } = this.props;
-
+    const { children, isValid, actions, width, showLoading, ...props } = this.props;
+    console.log('showLoading', showLoading)
     return (
 
       <div style={{ ...styles.container, width }}>
-        {(showLoading || loading) && <center style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 9999 }}><Progress /></center>}
+        {showLoading && <center style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 9999 }}><Progress /></center>}
         <Form
           {...props}
           isValid={v => this.setState({ isValid: v }, () => (isValid ? isValid(v) : null))}
@@ -91,4 +91,4 @@ Formulario.defaultProps = {
 };
 
 const mapStateToProps = ({ app: { showLoading } }) => ({ showLoading });
-export default connect(() => { }, { msg })(Formulario);
+export default connect(mapStateToProps, { msg })(Formulario);

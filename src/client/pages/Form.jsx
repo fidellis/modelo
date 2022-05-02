@@ -9,12 +9,12 @@ import SelectTipo from '~/components/select/SelectTipo';
 import { Grid } from '@material-ui/core';
 import { save, destroy } from '~/lib/api';
 import qs from 'qs';
-import { getModelo } from './testeHook';
+import { getRow } from './hook';
 
 const Component = (props) => {
 
   const id = Number(props.match.params.id);
-  const response = getModelo({ id, include: ['usuarioInclusao'] });
+  const response = getRow({ id, include: ['usuarioInclusao'] });
   const [data, setData] = useState(response);
 
   useEffect(() => {

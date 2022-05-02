@@ -2,33 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { getData, save, destroy } from '~/lib/api';
 import { formatInteger } from '~/lib/format';
 
-export function getModelos(params) {
+export function getRows(params) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState();
 
   async function change() {
-    setLoading(true);
-    const [response] = await Promise.all([
-      getData('/teste', { ...params, order: ['nome'] }),
-    ]);
+    const response = await Promise.resolve(getData('/teste', { ...params, order: ['nome'] }));
     setData(response);
-    setLoading(false);
   }
 
   useEffect(() => {
     change();
   }, [params.filter]);
 
-  return [data, loading];
+  return data;
 }
 
-export function getModelo({ id, ...params }) {
+export function getRow({ id, ...params }) {
   const [data, setData] = useState({ usuarioInclusao: {} });
 
   async function change() {
-    const [response] = await Promise.all([
-      getData(`/teste/${id}`, params),
-    ]);
+    const response = await Promise.resolve(getData(`/teste/${id}`, params));
     setData(response);
   }
 

@@ -25,6 +25,7 @@ Component.defaultProps = {
     label: '',
     optionValue: 'id',
     optionLabel: 'nome',
+    cache: 28800, // 8h
 };
 
 export default Component;
