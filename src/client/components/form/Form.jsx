@@ -90,5 +90,5 @@ Formulario.defaultProps = {
   submited: false,
 };
 
-const mapStateToProps = ({ app: { showLoading } }) => ({ showLoading });
+// const mapStateToProps = ({ app: { showLoading } }) => ({ showLoading });
 export default connect(() => { }, { msg })(Formulario);

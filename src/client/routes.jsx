@@ -17,7 +17,7 @@ function allow({ usuario }) {
 }
 const routes = [
   { path: '/', Component: () => <Redirect to="/testes" />, exact: true, link: false },
-  { path: '/testes', label: 'Testes', Component: Testes, icon: 'list', allow },
+  { path: '/testes', label: 'Testes 2', Component: Testes, icon: 'list', allow },
   { path: '/teste/:id', label: 'Teste', Component: TesteForm, allow, link: false },
   { path: '/teste-config', label: 'Configurar', Component: Testes, icon: 'settings', allow },
 ];
