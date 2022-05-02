@@ -129,7 +129,7 @@
     "runjob": "node scripts/runjob.js"
   },
   "repository": {
-    "url": "git@disem5.intranet.bb.com.br:infor/modelo.git"
+    "url": "git@gitlab.servicos.bb.com.br:diemp/modelo.git"
   },
   "jest": {
     "collectCoverageFrom": [
