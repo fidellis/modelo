@@ -14,7 +14,7 @@ function postDeploy(ambiente) {
     'source ~/.bash_profile',
     'cd server',
     'ls -al',
-    // `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} yarn install --production=true`,    
+    `http_proxy=${env.http_proxy} https_proxy=${env.http_proxy} yarn install --production=true`,
     'yarn link common',
     'cd ..',
     'ls -al',
