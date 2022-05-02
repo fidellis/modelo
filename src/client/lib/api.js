@@ -60,9 +60,9 @@ export const uploadApi = createApi(config.arquivoUrl);
 const api = createApi(config.apiUrl);
 
 export const getData = async (url, params) => {
-  loading(true);
+  //loading(true);
   const response = await api.get(url, { params: { ...params } }).catch(err => console.error(err));
-  loading(false);
+  //loading(false);
   return response.data;
 };
 
