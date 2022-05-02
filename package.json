@@ -113,6 +113,7 @@
     "start:build:server": "babel-node src/server -i node_modules/",
     "start": "npm-run-all -p start:client start:server",
     "deploy": "pm2 deploy production",
+    "deploy:setup": "pm2 deploy production setup",
     "staging": "pm2 deploy staging",
     "predeploy": "npm run test && npm run build:server && npm run release",
     "prestaging": " npm run test && npm run build:server && npm run release",
