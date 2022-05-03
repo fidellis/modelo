@@ -60,7 +60,7 @@ class Formulario extends Component {
     return (
 
       <div style={{ ...styles.container, width }}>
-        {showLoading && 'ok'}
+        {showLoading && <Loading />}
         <Form
           {...props}
           isValid={v => this.setState({ isValid: v }, () => (isValid ? isValid(v) : null))}
