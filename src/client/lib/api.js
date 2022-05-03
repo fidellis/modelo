@@ -75,12 +75,16 @@ export const getPromiseData = async (promises) => {
 };
 
 export const save = async (url, data, params) => {
+  loading(true);
   const response = await api.post(url, data, { params }).catch(err => console.error(err));
+  loading(false);
   return response ? response.data : null;
 };
 
 export const destroy = async (url, params) => {
+  loading(true);
   const response = await api.delete(url, { params }).catch(err => console.error(err));
+  loading(false);
   return response.data;
 };
 

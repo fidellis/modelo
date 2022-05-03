@@ -69,7 +69,7 @@ class Formulario extends Component {
           {children}
         </Form>
         <div style={styles.actions}>
-          {actions.filter(a => a.hide !== true).map(({ label, ...actionProps }) => <Button {...actionProps} key={label} onClick={() => this.onClickAction({ label, ...actionProps })} style={styles.button} >{label}</Button>)}
+          {actions.filter(a => a.hide !== true).map(({ label, ...actionProps }) => <Button {...actionProps} key={label} disabled={showLoading} onClick={() => this.onClickAction({ label, ...actionProps })} style={styles.button} >{label}</Button>)}
         </div>
       </div>
     );
