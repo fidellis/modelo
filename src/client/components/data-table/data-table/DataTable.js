@@ -51,6 +51,7 @@ function prepareGroupColumns({ columns, ...props }) {
 }
 
 // const Loading = () => <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}><ReactLoading type="spin" color="#626466" height={50} width={50} /></div>;
+const screenHeight = window.screen.height - 200;
 
 class DataTable extends Component {
   constructor(props) {
@@ -198,12 +199,11 @@ class DataTable extends Component {
   render() {
     const { width, height, maxHeight, toolbar, loading } = this.props;
     const { contentHeight } = this.state;
-    const screenHeight = window.screen.height - 200;
 
     return (
       <div style={{ width, marginLeft: 'auto', marginRight: 'auto' }}>
         {toolbar}
-        <div style={{ height: height || (screenHeight < maxHeight ? screenHeight : maxHeight) }} >
+        <div style={{ height: contentHeight > maxHeight ? maxHeight : contentHeight }} >
           {/* {loading && <Loading />} */}
           <AutoSizer key="table">
             {({ width }) => (
@@ -212,7 +212,6 @@ class DataTable extends Component {
                 width={width}
                 rowsCount={this.state.rows.length}
                 onContentHeightChange={h => this.setState({ contentHeight: h })}
-                maxHeight={screenHeight < maxHeight ? screenHeight : maxHeight}
               >
                 {this.renderColumns()}
               </Table>
@@ -239,7 +238,7 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
   columns: {},
   rows: [],
-  maxHeight: 747,
+  maxHeight: screenHeight > 747 ? 747 : screenHeight,
   headerHeight: 70,
   rowHeight: 40,
   groupHeaderHeight: 40,
@@ -250,5 +249,6 @@ DataTable.defaultProps = {
   onClick: null,
   footerHeight: 0,
 };
+
 
 export default DataTable;
