@@ -1,7 +1,6 @@
 {
   "app.css": "static/css/app.3e90e8.css",
   "app.css.map": "static/css/app.3e90e8.css.map",
-  "app.js": "static/js/app.ac4ac3.min.js",
-  "static\\media\\arrow_downward.svg": "static/media/arrow_downward.329401.svg",
-  "vendor.js": "static/js/vendor.bae5f1.min.js"
+  "app.js": "static/js/app.d3aeff.min.js",
+  "vendor.js": "static/js/vendor.14045d.min.js"
 }
