@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Select from 'react-select/async';
 import ComponentContainer from './ComponentContainer';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
-import _debounce from 'lodash/debounce';
+// import _debounce from 'lodash/debounce';
 import './react-select.css';
 
 function convertOptions({ options, optionValue, optionLabel, labelRenderer }) {
@@ -63,7 +63,6 @@ class SelectAsync extends PureComponent {
   async debounce(inputValue) {
     const { getOptions, isDisabled, params, optionValue, optionLabel, labelRenderer } = this.props;
     const result = await searchAPIDebounced({ inputValue, getOptions, params, isDisabled });
-    console.log('params', params, result)
     return convertOptions({ options: result, optionValue, optionLabel, labelRenderer });
   }
 
