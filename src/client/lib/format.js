@@ -5,13 +5,22 @@ export function formatInteger(valor) {
   return parseInt(valor || 0, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
+export function isInteger(value) {
+  return (value % 1) === 0;
+}
+
 export function formatDecimal(n, toFixed) {
   // return parseFloat(n).toLocaleString('pt-br', { minimumFractionDigits: 2 });
   // console.log('veja aqui!!', typeof (parseFloat(n)));
   return (parseFloat(n)) ? (parseFloat(n)).toFixed(toFixed || toFixed === 0 ? toFixed : 2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.') : n;
 }
 
+export function formatNumber(value, toFixed) {
+  return isInteger(value) ? formatInteger(value) : formatDecimal(value, toFixed);
+}
+
 export function formatDate(date) {
+  if (!date) return null;
   const newDate = new Date(date);
   const dateTimeZone = new Date(newDate.valueOf() + newDate.getTimezoneOffset() * 60000);
   return moment(dateTimeZone).format('DD/MM/YYYY');
@@ -42,17 +51,17 @@ export function formatCurrency(value, decimals = 2, prefix = '') {
   let v = 0;
 
   if (Math.abs(parsedValue) >= TRILHAO) {
-	  v = `${formatDecimal(parsedValue / TRILHAO, decimals)} tri`;
+    v = `${formatDecimal(parsedValue / TRILHAO, decimals)} tri`;
   } else if (Math.abs(parsedValue) >= BILHAO) {
-	  v = `${formatDecimal(parsedValue / BILHAO, decimals)} bi`;
+    v = `${formatDecimal(parsedValue / BILHAO, decimals)} bi`;
   } else if (Math.abs(parsedValue) >= MILHAO) {
-	  v = `${formatDecimal(parsedValue / MILHAO, decimals)} mi`;
+    v = `${formatDecimal(parsedValue / MILHAO, decimals)} mi`;
   } else if (Math.abs(parsedValue) >= MIL) {
-	  v = `${formatDecimal(parsedValue / MIL, decimals)} mil`;
+    v = `${formatDecimal(parsedValue / MIL, decimals)} mil`;
   } else {
-  	  v = formatDecimal(value, decimals);
+    v = formatNumber(value, decimals);
   }
-  return `${prefix} ${v}`.trim();
+  return `${prefix} ${v || 0}`.trim();
 }
 
 
