@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from './form/Form';
 import Button from '~/components/Button';
-// import Loading from '~/components/Loading';
+import Loading from '~/components/Loading';
 import { connect } from 'react-redux';
 
 export const msg = txt => dispatch => dispatch({ type: 'SUCCESS', msg: txt });
