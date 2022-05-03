@@ -88,7 +88,6 @@ export function cellRenderer({ column, row }) {
   return format(value, type);
 }
 
-
 export const filter = (initialRows, filteredColumns) => {
   const rows = initialRows;
 

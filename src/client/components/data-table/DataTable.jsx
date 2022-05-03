@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import DataTable, { onExportCsv } from '~/components/data-table/data-table';
-import ToolBar from './data-table/ToolBar';
 import PropTypes from 'prop-types';
 import { isMobile } from 'react-device-detect';
 import { setColumns } from "~/store/table";
+import { getData } from '~/lib/api';
+import DataTable, { onExportCsv } from '~/components/data-table/data-table';
+import Loading from '~/components/Loading';
 import Button from '~/components/Button';
 import Icon from '~/components/icons/Icon';
-import Loading from '~/components/Loading';
-import exportIcon from './arrow_downward.svg';
+import ToolBar from './data-table/ToolBar';
 
 function mergeColumns(c, filters) {
   const columns = {};
@@ -21,43 +21,55 @@ function mergeColumns(c, filters) {
   });
   return columns;
 }
-class Table extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      filteredRows: props.rows,
-    };
+const Table = props => {
+
+  const [filteredRows, setFilteredRows] = useState(props.rows);
+  const [rows, setRows] = useState(props.rows);
+  const { columns, filters, title, actions, exportCsv, count, width, showLoading, loading } = props;
+
+  async function getRows() {
+    let response = [];
+    if (props.getData) {
+      response = await props.getData();
+    } else if (props.url) {
+      response = await getData(props.url, props.params);
+    }
+    setRows(response);
   }
+  useEffect(() => {
+    getRows();
+  }, []);
 
-  render() {
-    const { columns, filters, title, actions, exportCsv, exportCsv2, count, width, showLoading, loading, ...props } = this.props;
-    const { filteredRows } = this.state;
+  useEffect(() => {
+    if (props.rows) setRows(props.rows);
+  }, [props.rows]);
 
-    return (
-      <div>
-        {(showLoading || loading) && <Loading />}
-        <DataTable
-          {...props}
-          width={isMobile ? '100%' : width}
-          columns={mergeColumns(columns, filters)}
-          getRows={r => this.setState({ filteredRows: r })}
-          getColumns={c => this.props.setColumns(c)}
-          toolbar={
-            <ToolBar
-              title={title}
-              actions={
-                actions.concat([
-                  // exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
-                  exportCsv ? <Icon variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar CSV" >download</Icon> : null,
-                  count ? <Button variant="" >{`${filteredRows.length} registros`}</Button> : null,
-                ])}
-            />
-          }
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      {(showLoading || loading) && <Loading />}
+      <DataTable
+        {...props}
+        rows={rows}
+        width={isMobile ? '100%' : width}
+        columns={mergeColumns(columns, filters)}
+        getRows={r => setFilteredRows(r)}
+        getColumns={c => props.setColumns(c)}
+        toolbar={
+          <ToolBar
+            title={title}
+            actions={
+              actions.concat([
+                // exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
+                exportCsv ? <Icon variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar CSV" >download</Icon> : null,
+                count ? <Button variant="" >{`${filteredRows.length} registros`}</Button> : null,
+              ])}
+          />
+        }
+      />
+    </div>
+  );
+
 }
 
 Table.propTypes = {
@@ -75,9 +87,9 @@ Table.propTypes = {
 Table.defaultProps = {
   title: null,
   actions: [],
+  rows: [],
   exportCsv: false,
   count: false,
-  // maxHeight: 700,
   headerStyle: { background: '#617D8A', color: '#FFFFFF' },
   touchScrollEnabled: true,
   setColumns: null,
