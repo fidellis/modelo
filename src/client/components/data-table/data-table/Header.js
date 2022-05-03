@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import SelectCheckbox from './SelectCheckbox';
 
 const Label = ({ children, onSort, column }) => {
   const styles = {
@@ -24,7 +24,7 @@ const Label = ({ children, onSort, column }) => {
       <span onClick={onClick} style={{ textAlign: 'center', cursor: sortable ? 'pointer' : null }}>{children}</span> {sortIcon}
     </div>
   )
-  ;
+    ;
 };
 
 const Input = ({ column, onSearch }) => {
@@ -50,10 +50,22 @@ const Input = ({ column, onSearch }) => {
 
   return (
     <div style={styles.container}>
-      <input
+      {/* <input
         onChange={e => onSearch({ value: e.target.value, column })}
         value={column.searchValue || ''}
         style={styles.input}
+      /> */}
+      <SelectCheckbox
+        key={column.key}
+        id={column.key}
+        onChange={e => console.log(e)}
+
+        options={[
+          { value: 1, label: 'Teste 1' },
+          { value: 2, label: 'Teste 2' },
+          { value: 3, label: 'Teste 3' },
+          { value: 4, label: 'Teste 4' },
+        ]}
       />
     </div>
   );

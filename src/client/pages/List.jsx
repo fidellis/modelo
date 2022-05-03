@@ -12,7 +12,7 @@ const columns = {
   id: {
     label: '#',
     search: true,
-    width: 50,
+    width: 200,
   },
   nome: {
     label: 'Teste',
