@@ -60,7 +60,6 @@ class Formulario extends Component {
     return (
 
       <div style={{ ...styles.container, width }}>
-        {showLoading && <Loading />}
         {showLoading && 'ok'}
         <Form
           {...props}
