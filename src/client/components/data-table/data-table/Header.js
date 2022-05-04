@@ -52,9 +52,7 @@ const Input = ({ column, rows, onSearch }) => {
     },
   };
 
-  // const value = cellRenderer({ column, row });
   const options = column.lookup ? uniq(rows.map(row => cellRenderer({ column, row }))).map(value => ({ value, label: value })) : [];
-  console.log(column.key, options)
 
   return (
     <div style={styles.container}>
