@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import uniq from 'lodash/uniq';
 import SelectCheckbox from './SelectCheckbox';
+import { cellRenderer } from './utils';
 
 const Label = ({ children, onSort, column }) => {
   const styles = {
@@ -36,7 +38,7 @@ const Input = ({ column, rows, onSearch }) => {
       height: '100%',
     },
     inputContainer: {
-      width: 'calc(100% - 20px)',
+      width: 'calc(100% - 10px)',
     },
     input: {
       marginTop: 2,
@@ -50,6 +52,10 @@ const Input = ({ column, rows, onSearch }) => {
     },
   };
 
+  // const value = cellRenderer({ column, row });
+  const options = column.lookup ? uniq(rows.map(row => cellRenderer({ column, row }))).map(value => ({ value, label: value })) : [];
+  console.log(column.key, options)
+
   return (
     <div style={styles.container}>
       {column.lookup ?
@@ -57,7 +63,7 @@ const Input = ({ column, rows, onSearch }) => {
           id={column.key}
           value={column.searchValue || []}
           onChange={e => onSearch({ value: e.value, column })}
-          options={rows.map(value => ({ value, label: value }))}
+          options={options}
           style={styles.input}
           styleContainer={styles.inputContainer}
         />

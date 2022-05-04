@@ -5,7 +5,6 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 // import ReactLoading from 'react-loading';
 import clone from 'lodash/clone';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
-import uniq from 'lodash/uniq';
 import Cell from './Cell';
 import Header from './Header';
 import { getColumnsGroup, filter, sort } from './utils';
@@ -170,7 +169,7 @@ class DataTable extends Component {
         header={
           <Header
             column={column}
-            rows={column.lookup ? uniq(this.startRows.map(row => row[column.key])) : []}
+            rows={this.startRows}
             onSearch={this.setColumn}
             onSort={this.onSort}
           >

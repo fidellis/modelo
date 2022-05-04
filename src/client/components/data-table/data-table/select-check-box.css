@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.input-select-option {
+  font-size: 12px;
+}
+
 .selectBox {
   position: relative;
 }
@@ -35,7 +39,7 @@
   overflow: auto;
   max-height: 500px;
   color: #626466;
-  width: calc(100% - 20px);
+  /* width: calc(100%); */
 }
 
 .checkboxes label {
