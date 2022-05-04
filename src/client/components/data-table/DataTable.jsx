@@ -45,6 +45,8 @@ const Table = props => {
     if (props.rows) setRows(props.rows);
   }, [props.rows]);
 
+  const exportData = () => onExportCsv({ rows: filteredRows, columns });
+
   return (
     <div>
       {(showLoading || loading) && <Loading />}
@@ -61,7 +63,8 @@ const Table = props => {
             actions={
               actions.concat([
                 // exportCsv ? <img src={exportIcon} onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar" style={{ cursor: 'pointer' }} /> : null,
-                exportCsv ? <Icon variant="outlined" onClick={() => onExportCsv({ rows: filteredRows, columns })} title="Exportar CSV" >download</Icon> : null,
+                exportCsv ? <Icon variant="outlined" onClick={exportData} title="Exportar CSV" >download</Icon> :
+                  props.exportCsvButton ? <Button variant="outlined" onClick={exportData} title="Exportar" >Exportar</Button> : null,
                 count ? <Button variant="" >{`${filteredRows.length} registros`}</Button> : null,
               ])}
           />

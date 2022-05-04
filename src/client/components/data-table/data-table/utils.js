@@ -94,6 +94,7 @@ export const filter = (initialRows, filteredColumns) => {
   return rows.filter(row => filteredColumns.every((column) => {
     const value = get(row, column.key);
     if (Array.isArray(column.searchValue)) {
+      if (!column.searchValue.length) return true;
       return column.searchValue.includes(value);
     } else {
       const searchValue = column.searchValue.toString();

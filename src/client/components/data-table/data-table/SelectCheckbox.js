@@ -15,7 +15,6 @@ class InputSelect extends Component {
 		const options = convertOptions({ options: props.options, optionValue, optionLabel, labelRenderer });
 
 		this.state = {
-			expanded: false,
 			values,
 			options,
 			selectedOptions: this.getSelected({ options, values }),
@@ -24,22 +23,33 @@ class InputSelect extends Component {
 		};
 
 		document.addEventListener('click', evt => {
-			var path = event.path || (event.composedPath && event.composedPath());
-			var path = event.path || (event.composedPath && event.composedPath());
-			if (path && path.indexOf(document.querySelector('.multiselect')) < 0) {
-				document.getElementById("checkboxes").style.display = "none";
-				this.setState({ expanded: false })
+			const e = evt.path[0];
+			const evtClassName = e ? e.className : null;
+			// const path = event.path || (event.composedPath && event.composedPath());
+			const checkboxes = document.getElementsByClassName("checkboxes");
+
+			for (let i = 0; i < checkboxes.length; i++) {
+				const checkboxe = checkboxes[i];
+				if (!evtClassName.includes(checkboxe.id)) {
+					checkboxe.style.display = "none";
+				}
 			}
 		}, true);
 
 		this.showCheckboxes = this.showCheckboxes.bind(this)
 	}
 
-	componentWillReceiveProps({ value, options }) {
+	componentWillReceiveProps({ value, options, optionValue, optionLabel, labelRenderer }) {
+		if (options !== this.props.options) {
+			this.setState({
+				options: convertOptions({ options, optionValue, optionLabel, labelRenderer }),
+				selectedOptions: this.getSelected({ values: value, options }),
+			})
+		}
 		if (value !== this.props.value) {
 			this.setState({
 				values: value,
-				selectedOptions: this.getSelected({ values: value, options })
+				selectedOptions: this.getSelected({ values: value, options }),
 			})
 		}
 	}
@@ -77,50 +87,41 @@ class InputSelect extends Component {
 
 	showCheckboxes(id) {
 		const checkboxes = document.getElementById(`checkboxes-${id}`);
-
-		if (!this.state.expanded) {
-			checkboxes.style.display = "block";
-			this.setState({ expanded: true });
-		} else {
-			checkboxes.style.display = "none";
-			this.setState({ expanded: false });
-		}
+		checkboxes.style.display = ["none", ""].includes(checkboxes.style.display) ? "block" : "none";
 
 	}
 	render() {
-		const { id, label, placeholder, optionValue, optionLabel, labelRenderer, width, ...inputProps } = this.props;
+		const { id, label, placeholder, optionValue, optionLabel, labelRenderer, width, style, styleContainer, ...inputProps } = this.props;
 		const { options } = this.state;
 
 		return (
-			<div label={label}>
-				<div className="multiselect">
-					<div className="selectBox" onClick={() => this.showCheckboxes(id)}>
-						<select
-							{...inputProps}
-							className="input input-select"
-						>
-							<option>{this.renderSelectedLabel() || placeholder}</option>
-							{options.map(o => <option>{o.label}</option>)}
-						</select>
-						<div className="overSelect"></div>
-					</div>
-					<div id={`checkboxes-${id}`} className="checkboxes">
-						{options.map((option, i) => (
-							<label htmlFor={option.value} className="input-select-option">
-								<input
-									type="checkbox"
-									id={option.value}
-									value={option.value}
-									onChange={(e) => this.onChange({ checked: e.target.checked, value: option.value, selectedOption: option, e })}
-									checked={this.isSelected(option)}
-								/>
-								{option.label}
-							</label>
-						))}
-					</div>
+			<div id={`multiselect-${id}`} className="multiselect" style={styleContainer}>
+				<div id={`selectBox-${id}`} className="selectBox" onClick={() => this.showCheckboxes(id)}>
+					<select
+						{...inputProps}
+						className="input input-select-checkbox"
+						style={style}
+					>
+						<option>{this.renderSelectedLabel() || placeholder}</option>
+						{options.map(o => <option>{o.label}</option>)}
+					</select>
+					<div id={`overSelect-${id}`} className={`overSelect checkboxes-${id}`}></div>
 				</div>
-
-
+				<div id={`checkboxes-${id}`} className="checkboxes">
+					{options.map((option, i) => (
+						<label htmlFor={`${option.value}-${id}`} className={`input-select-option checkboxes-${id}`}>
+							<input
+								type="checkbox"
+								id={`${option.value}-${id}`}
+								className={`checkboxes-${id}`}
+								value={option.value}
+								onChange={(e) => this.onChange({ checked: e.target.checked, value: option.value, selectedOption: option, e })}
+								checked={this.isSelected(option)}
+							/>
+							{option.label}
+						</label>
+					))}
+				</div>
 			</div>);
 
 	}
@@ -145,30 +146,4 @@ InputSelect.defaultProps = {
 
 export default InputSelect;
 
-/*
-<div className="multiselect">	
-	<div className="selectBox" onClick={this.showCheckboxes}>			
-	  <select
-		  {...inputProps}
-		  className="input input-select"				  
-		>
-			<option>{this.renderSelectedLabel() || placeholder}</option>
-		</select>
-	  <div className="overSelect"></div>
-	</div>
-	<div id="checkboxes" className="checkboxes">
-		{options.map(option => (					 
-			 <label htmlFor={option.value} >
-				<input 
-					type="checkbox"
-					id={option.value} 
-					value={option.value}
-					onChange={(e) => this.onChange({ checked: e.target.checked, value: option.value, selectedOption: option, e })}
-					checked={this.isSelected(option)}
-					/>
-					{option.label}
-			</label>						
-		))}
-	</div>
-</div>
-*/
+

@@ -27,7 +27,7 @@ const Label = ({ children, onSort, column }) => {
     ;
 };
 
-const Input = ({ column, onSearch }) => {
+const Input = ({ column, rows, onSearch }) => {
   const styles = {
     container: {
       display: 'flex',
@@ -35,8 +35,10 @@ const Input = ({ column, onSearch }) => {
       justifyContent: 'center',
       height: '100%',
     },
+    inputContainer: {
+      width: 'calc(100% - 20px)',
+    },
     input: {
-      width: 'calc(100% - 10px)',
       marginTop: 2,
       marginBottom: 2,
       border: 1,
@@ -47,26 +49,26 @@ const Input = ({ column, onSearch }) => {
       color: '#626466',
     },
   };
-
+  console.log('column.searchValue', column.searchValue)
   return (
     <div style={styles.container}>
-      {/* <input
-        onChange={e => onSearch({ value: e.target.value, column })}
-        value={column.searchValue || ''}
-        style={styles.input}
-      /> */}
-      <SelectCheckbox
-        key={column.key}
-        id={column.key}
-        onChange={e => console.log(e)}
+      {column.lookup ?
+        <SelectCheckbox
+          id={column.key}
+          value={column.searchValue || []}
+          onChange={e => onSearch({ value: e.value, column })}
+          options={rows.map(value => ({ value, label: value }))}
+          style={styles.input}
+          styleContainer={styles.inputContainer}
+        />
+        :
+        <input
+          onChange={e => onSearch({ value: e.target.value, column })}
+          value={column.searchValue || ''}
+          style={{ ...styles.input, ...styles.inputContainer }}
+        />
+      }
 
-        options={[
-          { value: 1, label: 'Teste 1' },
-          { value: 2, label: 'Teste 2' },
-          { value: 3, label: 'Teste 3' },
-          { value: 4, label: 'Teste 4' },
-        ]}
-      />
     </div>
   );
 };
@@ -92,12 +94,12 @@ const Container = ({ children, height, headerStyle }) => {
   );
 };
 
-const Cell = ({ children, column, height, onSort, onSearch }) => {
+const Cell = ({ children, column, rows, height, onSort, onSearch }) => {
   const { search, headerStyle } = column;
   return (
     <Container height={height} headerStyle={headerStyle}>
       <Label column={column} onSort={onSort}>{children}</Label>
-      {search && <Input column={column} onSearch={onSearch} />}
+      {search && <Input column={column} rows={rows} onSearch={onSearch} />}
     </Container>);
 };
 
@@ -136,7 +138,7 @@ class Header extends Component {
   }
 
   render() {
-    const { children, column, height, onSearch, group } = this.props;
+    const { children, column, rows, height, onSearch, group } = this.props;
 
     return (
       group ?
@@ -149,6 +151,7 @@ class Header extends Component {
         :
         <Cell
           column={column}
+          rows={rows}
           height={height}
           onSort={this.onSort}
           onSearch={onSearch}

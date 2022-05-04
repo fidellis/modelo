@@ -17,9 +17,11 @@ const columns = {
   nome: {
     label: 'Teste',
     search: true,
+    lookup: true,
   },
   'usuarioInclusao.nome': {
     label: 'Usuário',
+    search: true,
     width: 250,
   },
   dataHoraInclusao: {

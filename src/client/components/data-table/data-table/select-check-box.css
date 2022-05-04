@@ -1,4 +1,10 @@
-.multiselect {}
+.multiselect {
+  width: 100%;
+}
+
+.input-select-checkbox {
+  width: 100%;
+}
 
 .selectBox {
   position: relative;
@@ -6,7 +12,7 @@
 
 .selectBox select {
   /*
-  width: 100%;	
+  width: 100%; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;*/
@@ -28,6 +34,8 @@
   border: 1px #dadada solid;
   overflow: auto;
   max-height: 500px;
+  color: #626466;
+  width: calc(100% - 20px);
 }
 
 .checkboxes label {
