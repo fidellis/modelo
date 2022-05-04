@@ -44,8 +44,7 @@ const Component = props => {
       <DataTable
         // rows={data}
         url="/teste"
-        columns={columns}
-        width="90%"
+        columns={columns}        
         onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
       />
 

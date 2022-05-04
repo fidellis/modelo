@@ -198,18 +198,21 @@ class DataTable extends Component {
   }
 
   render() {
-    const { width, height, maxHeight, toolbar, loading } = this.props;
+    const { height, fullWidth, toolbar, ...props } = this.props;
     const { contentHeight } = this.state;
-
+    if (fullWidth) {
+      props.height = height;
+    } else {
+      props.maxHeight = height;
+    }
     return (
-      <div style={{ width, marginLeft: 'auto', marginRight: 'auto' }}>
+      <div style={{ width: props.width, marginLeft: 'auto', marginRight: 'auto' }}>
         {toolbar}
-        <div style={{ height: contentHeight > maxHeight ? maxHeight : contentHeight }} >
-          {/* {loading && <Loading />} */}
+        <div style={{ height: contentHeight > height ? height : contentHeight }} >
           <AutoSizer key="table">
             {({ width }) => (
               <Table
-                {...this.props}
+                {...props}
                 width={width}
                 rowsCount={this.state.rows.length}
                 onContentHeightChange={h => this.setState({ contentHeight: h })}
@@ -239,7 +242,8 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
   columns: {},
   rows: [],
-  maxHeight: screenHeight > 747 ? 747 : screenHeight,
+  height: screenHeight > 747 ? 747 : screenHeight,
+  fullWidth: true,
   headerHeight: 70,
   rowHeight: 40,
   groupHeaderHeight: 40,
