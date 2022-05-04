@@ -49,7 +49,7 @@ const Input = ({ column, rows, onSearch }) => {
       color: '#626466',
     },
   };
-  console.log('column.searchValue', column.searchValue)
+
   return (
     <div style={styles.container}>
       {column.lookup ?
