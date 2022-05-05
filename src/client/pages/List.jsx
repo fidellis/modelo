@@ -1,66 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { message } from '~/store/app';
+import { setFilter } from '~/store/filter';
 import DataTable from '~/components/data-table/DataTable';
-import Aviso from '~/components/message/Aviso';
-import Button from '~/components/button/Button';
 import NavigationButton from '~/components/NavigationButton';
-import { getRows } from './hook';
 
-const columns = {
-  id: {
-    label: '#',
-    search: true,
-    width: 200,
-  },
-  nome: {
-    label: 'Teste',
-    search: true,
-    lookup: true,
-  },
-  'usuarioInclusao.nome': {
-    label: 'Usuário',
-    search: true,
-    width: 250,
-  },
-  dataHoraInclusao: {
-    label: 'Data',
-    type: 'DATE',
-    width: 100,
-  }
-};
-
-const Component = props => {
-  const [data, setData] = useState([]);
-  const response = getRows({ include: ['usuarioInclusao'] });
-
-  useEffect(() => {
-    setData(response);
-  }, [response]);
-
-  return (
-    <div>
-      <DataTable
-        // rows={data}
-        url="/teste"
-        columns={columns}
-        onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
-      />
-
-      <NavigationButton buttons={[
-        {
-          label: 'Adicionar Teste',
-          onClick: () => props.history.push('/teste/0'),
+const Component = props => (
+  <div>
+    <DataTable
+      url="/teste"
+      params={{ include: ['usuarioInclusao'], order: ['nome'] }}
+      onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
+      columns={{
+        id: {
+          label: '#',
+          search: true,
+          width: 200,
         },
-      ]}
-      />
-    </div>
-  );
-}
+        nome: {
+          label: 'Teste',
+          search: true,
+          lookup: true,
+        },
+        'usuarioInclusao.nome': {
+          label: 'Usuário',
+          search: true,
+          width: 250,
+        },
+        dataHoraInclusao: {
+          label: 'Data',
+          type: 'DATE',
+          width: 100,
+        }
+      }}
+    />
 
-Component.propTypes = {};
-const mapStateToProps = ({ app: { usuario } }) => ({ usuario });
-const mapDispatchToProps = ({ message });
+    <NavigationButton buttons={[{
+      label: 'Adicionar Teste',
+      onClick: () => props.history.push('/teste/0'),
+    }]}
+    />
+  </div>
+);
+
+const mapStateToProps = ({ filter }) => ({ filter });
+const mapDispatchToProps = ({ setFilter });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Component);
