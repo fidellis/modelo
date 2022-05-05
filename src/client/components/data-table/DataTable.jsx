@@ -39,7 +39,7 @@ const Table = props => {
   }
   useEffect(() => {
     getRows();
-  }, []);
+  }, [props.params]);
 
   useEffect(() => {
     if (props.rows) setRows(props.rows);

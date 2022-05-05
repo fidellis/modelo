@@ -114,7 +114,7 @@ class DataTable extends Component {
 
   setColumn(params) {
     const key = params.column.key;
-    const columns = JSON.parse(JSON.stringify(this.state.columns));
+    const columns = this.getColumns(this.props);
     const column = columns[key];
     column.searchValue = params.value;
     columns[key] = column;

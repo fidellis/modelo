@@ -64,9 +64,9 @@ class InputSelect extends Component {
 			const indexSelected = values.indexOf(value);
 			values.splice(indexSelected, 1);
 		}
-
-		this.setState({ values }, () => {
-			this.props.onChange({ id, value: values, selectedValue: value, selectedOption, selectedOptions: this.getSelected({ values, options }) })
+		const selectedOptions = this.getSelected({ values, options });
+		this.setState({ values, selectedOptions }, () => {
+			this.props.onChange({ id, value: values, selectedValue: value, selectedOption, selectedOptions })
 		})
 
 	}
@@ -102,7 +102,7 @@ class InputSelect extends Component {
 						className="input input-select-checkbox"
 						style={style}
 					>
-						<option>{this.renderSelectedLabel() || placeholder}</option>
+						<option>{this.renderSelectedLabel()}</option>
 						{options.map(o => <option>{o.label}</option>)}
 					</select>
 					<div id={`overSelect-${id}`} className={`overSelect checkboxes-${id}`}></div>

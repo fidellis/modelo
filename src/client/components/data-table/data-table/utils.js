@@ -93,14 +93,20 @@ export const filter = (initialRows, filteredColumns) => {
 
   return rows.filter(row => filteredColumns.every((column) => {
     const value = get(row, column.key);
+    const formatValue = (column.cellRenderer ? column.cellRenderer({ row }) : format(value, column.type)) || '';
+
+    function compare(v) {
+      const regex = new RegExp(removeSymbols(v.toString()), 'ig');
+      return regex.test(removeSymbols(formatValue.toString()));
+    }
+
     if (Array.isArray(column.searchValue)) {
       if (!column.searchValue.length) return true;
-      return column.searchValue.includes(value);
+      return column.searchValue.some(searchValue => {
+        return compare(searchValue);
+      })
     } else {
-      const searchValue = column.searchValue.toString();
-      const regex = new RegExp(removeSymbols(searchValue), 'ig');
-      const formatValue = column.cellRenderer ? column.cellRenderer({ row }) : format(value, column.type);
-      return regex.test(removeSymbols(formatValue.toString()));
+      return compare(column.searchValue);
     }
   }));
 };
