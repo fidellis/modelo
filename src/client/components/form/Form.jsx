@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from './form/Form';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 import Loading from '~/components/Loading';
 import { connect } from 'react-redux';
 

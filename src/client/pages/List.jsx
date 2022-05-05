@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { message } from '~/store/app';
 import DataTable from '~/components/data-table/DataTable';
 import Aviso from '~/components/message/Aviso';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 import NavigationButton from '~/components/NavigationButton';
 import { getRows } from './hook';
 
@@ -44,7 +44,7 @@ const Component = props => {
       <DataTable
         // rows={data}
         url="/teste"
-        columns={columns}        
+        columns={columns}
         onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
       />
 

@@ -4,7 +4,7 @@ import api, { uploadApi, getData } from '~/lib/api';
 import config from '~/config';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 import ImageArquivos from '~/components/ImageArquivos';
 import Icon from '~/components/icons/Icon';
 import { TextInput } from '~/components/form/form/inputs';

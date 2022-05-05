@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
@@ -25,19 +25,19 @@ const useStyles = makeStyles({
 });
 
 const Component = ({ children, title, actions, width, ...props }) => {
-    const classes = useStyles();
-    return(
-      <div style={{ marginLeft: 'auto', marginRight: 'auto', width }}>
-        <Card className={classes.root} {...props}>        
-            <CardContent>
-                {children}
-            </CardContent>        
-            <CardActions>
-              {actions.map(({ component, label, ...action }) => component || <Button color="" size="small" {...action}>{label}</Button>)}            
-            </CardActions>
+  const classes = useStyles();
+  return (
+    <div style={{ marginLeft: 'auto', marginRight: 'auto', width }}>
+      <Card className={classes.root} {...props}>
+        <CardContent>
+          {children}
+        </CardContent>
+        <CardActions>
+          {actions.map(({ component, label, ...action }) => component || <Button color="" size="small" {...action}>{label}</Button>)}
+        </CardActions>
 
-        </Card>
-      </div>)
+      </Card>
+    </div>)
 };
 
 Component.propTypes = {

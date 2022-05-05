@@ -5,9 +5,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 
-const Component = ({ children, title, actions, ...props }) => (
+const Component = ({ children, title, actions, credits, ...props }) => (
   <Dialog
     {...props}
   >
@@ -16,10 +16,11 @@ const Component = ({ children, title, actions, ...props }) => (
       <DialogContentText >
         {children}
       </DialogContentText>
+      <div style={{ float: 'right' }}>{credits}</div>
     </DialogContent>
     <DialogActions>
       {actions.map(action => (
-        <Button onClick={action.onClick}>
+        <Button {...action}>
           {action.label}
         </Button>
       ))}
@@ -36,6 +37,7 @@ Component.propTypes = {
 Component.defaultProps = {
   title: undefined,
   actions: [],
+  maxWidth: '100%'
 };
 
 export default Component;

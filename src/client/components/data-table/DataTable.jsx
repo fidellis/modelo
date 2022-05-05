@@ -6,7 +6,7 @@ import { setColumns } from "~/store/table";
 import { getData } from '~/lib/api';
 import DataTable, { onExportCsv } from '~/components/data-table/data-table';
 import Loading from '~/components/Loading';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 import Icon from '~/components/icons/Icon';
 import ToolBar from './data-table/ToolBar';
 
