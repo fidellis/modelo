@@ -26,7 +26,7 @@ module.exports = router => {
     }
   });
 
-  router.get('/:id', async (req, res, next) => {
+  router.get('/teste/:id', async (req, res, next) => {
     const params = (0, _converter2.default)(_teste2.default, req);
     try {
       const response = await _teste2.default.scope('usuarioInclusao', 'tipo').findById(req.params.id, params);
