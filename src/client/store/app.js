@@ -1,16 +1,9 @@
 import api from '~/lib/api';
 import createAction from '~/lib/createAction';
 
-const INICIA_APP = 'INICIA_APP';
-const BUSCA_USUARIO = 'BUSCA_USUARIO';
-const BUSCA_USUARIO_SUCCESS = 'BUSCA_USUARIO_SUCCESS';
-
-const BUSCA_ACESSOS = 'BUSCA_ACESSOS';
-const BUSCA_ACESSOS_SUCCESS = 'BUSCA_ACESSOS_SUCCESS';
-
-export const buscaUsuarioLogado = () => createAction(BUSCA_USUARIO, api.get('/usuario/logado'));
-export const iniciaApp = () => dispatch => dispatch({ type: INICIA_APP });
-export const buscaAcessos = () => createAction(BUSCA_ACESSOS, api.get('/usuario/acessos'));
+export const buscaUsuarioLogado = () => createAction('BUSCA_USUARIO', api.get('/usuario/logado'));
+export const iniciaApp = () => dispatch => dispatch({ type: 'INICIA_APP' });
+export const buscaAcessos = () => createAction('BUSCA_ACESSOS', api.get('/usuario/acessos'));
 export const message = txt => dispatch => dispatch({ type: 'SUCCESS', msg: txt });
 export const loading = value => dispatch => dispatch({ type: 'LOADING', payload: value });
 
@@ -53,11 +46,11 @@ const reducer = (state = initialState, action) => {
     newState = { ...state, loading: state.loading + 1 };
   }
 
-  if (action.type === BUSCA_USUARIO_SUCCESS) {
+  if (action.type === 'BUSCA_USUARIO_SUCCESS') {
     newState = { ...state, usuario: action.payload };
   }
 
-  if (action.type === INICIA_APP || action.type === BUSCA_ACESSOS_SUCCESS) {
+  if (action.type === 'INICIA_APP' || action.type === 'BUSCA_ACESSOS_SUCCESS') {
     const acessos = action.payload || state.acessos;
 
     newState = { ...state, acessos };

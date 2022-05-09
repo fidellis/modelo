@@ -31,10 +31,11 @@ class SnackbarWrapper extends Component {
   }
 
   render() {
-    const { message } = this.state;
+    const { message, error } = this.state;
+
     return (
       <Snackbar
-        open={!!this.state.message}
+        open={!!message}
         autoHideDuration={4000}
         onClose={this.handleClose}
         message={message}

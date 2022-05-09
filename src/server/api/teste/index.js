@@ -28,7 +28,8 @@ module.exports = (router) => {
     const { Teste } = sequelize.models;
     const usuario = req.session.usuario;
     const data = req.body;
-    const isNewRecord = !data.id;
+    const id = Number(data.id) || null;
+    const isNewRecord = !id;
 
     if (isNewRecord) {
       data.usuarioInclusao_id = usuario.id;
@@ -38,7 +39,7 @@ module.exports = (router) => {
     };
 
     try {
-      let record = await Teste.find({ where: { id: { $notIn: [data.id] }, nome: data.nome } });
+      const record = await Teste.find({ where: { id: { $not: id }, nome: data.nome }, attributes: ['nome'] });
       if (record) return res.status(400).send({ msg: `${record.nome} já cadastrado.` });
 
       const response = await Teste.build(data, { isNewRecord }).save();

@@ -113,6 +113,7 @@ const Component = ({ match, message, history }) => {
                 label="Tipo"
                 value={data.tipo_id}
                 onChange={onChange}
+                required
               />
 
             </Grid>
