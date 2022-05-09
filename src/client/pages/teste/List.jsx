@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { setFilter } from '~/store/filter';
 import DataTable from '~/components/data-table/DataTable';
 import NavigationButton from '~/components/NavigationButton';
+import SelectTipo from '~/components/select/SelectTipo';
 
-const Component = ({ history, filter }) => (
+const Component = ({ history, filter, ...props }) => (
   <div>
     <DataTable
       url="/teste"
@@ -38,10 +39,18 @@ const Component = ({ history, filter }) => (
           width: 100,
         }
       }}
+      actions={[
+        <SelectTipo
+          label=""
+          value={filter.teste.tipo_id}
+          onChange={(e) => props.setFilter({ ...e, filter: 'teste' })}
+          isMulti
+          style={{ width: 300 }} />
+      ]}
     />
 
     <NavigationButton buttons={[{
-      label: 'Adicionar Teste',
+      label: 'Adicionar',
       onClick: () => history.push('/teste/0'),
     }]}
     />
