@@ -14,9 +14,10 @@ function mergeColumns(c, filters) {
   const columns = {};
   Object.keys(c).forEach(key => {
     const filter = filters[key] || {};
+    const column = c[key] || {};
     columns[key] = {
-      ...c[key],
-      searchValue: filter.searchValue,
+      ...column,
+      searchValue: filter.searchValue || column.searchValue,
     }
   });
   return columns;

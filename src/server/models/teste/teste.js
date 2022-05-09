@@ -1,6 +1,7 @@
 import sequelize from 'common/sequelize';
 import Sequelize from 'common/sequelize/sequelize';
 import Version from 'common/sequelize/version';
+import Usuario from 'common/models/portal/usuario';
 import Tipo from './tipo';
 
 const Model = sequelize.define(
@@ -49,6 +50,10 @@ const Model = sequelize.define(
     },
   },
   {
+    scopes: {
+      usuarioInclusao: { include: [{ model: Usuario, as: 'usuarioInclusao' }] },
+      tipo: params => ({ include: [{ model: Tipo, as: 'tipo' }] }),
+    },
     schema: 'teste',
     tableName: 'teste',
   },

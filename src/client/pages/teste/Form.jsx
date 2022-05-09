@@ -3,23 +3,27 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { message } from '~/store/app';
 import Card from '~/components/Card';
+import Grid from '~/components/Grid';
 import Form from '~/components/form/Form';
 import { TextInput, NumberInput, DateInput, Select } from '~/components/form/form/inputs';
 import SelectTipo from '~/components/select/SelectTipo';
-import { Grid } from '@material-ui/core';
-import { save, destroy } from '~/lib/api';
-import qs from 'qs';
-import { getRow } from './hook';
+import { getData, save, destroy } from '~/lib/api';
+//import qs from 'qs';
 
-const Component = (props) => {
+const Component = ({ match, message, history }) => {
+  const id = Number(match.params.id);
+  //const query = qs.parse(props.location.search.replace('?', ''));
+  const [data, setData] = useState({ usuarioInclusao: {} });
 
-  const id = Number(props.match.params.id);
-  const response = getRow({ id, include: ['usuarioInclusao'] });
-  const [data, setData] = useState(response);
+  async function change() {
+    console.log('id', id)
+    const response = await getData(`/teste/${id}`);
+    setData(response);
+  }
 
   useEffect(() => {
-    setData(response);
-  }, [response]);
+    if (id) change();
+  }, []);
 
 
   function onChange({ id, value }) {
@@ -29,27 +33,27 @@ const Component = (props) => {
   async function salvar() {
     const response = await save('/teste', data);
     if (response) {
-      props.message('Salvo com sucesso');
+      message('Salvo com sucesso');
       atualizar(response.id);
     }
   }
 
-  async function excluir(id) {
+  async function excluir() {
     if (confirm('Excluir?')) {
       const response = await destroy(`/teste/${id}`);
       if (response) {
-        props.message('Excluído com sucesso');
+        message('Excluído com sucesso');
         voltar();
       }
     }
   }
 
   function atualizar(id) {
-    props.history.push(`/teste/${id}`);
+    history.push(`/teste/${id}`);
   }
 
   function voltar() {
-    props.history.push(`/testes`);
+    history.push(`/testes`);
   }
 
   return (
@@ -69,7 +73,7 @@ const Component = (props) => {
             },
             {
               label: 'Excluir',
-              onClick: () => excluir(id),
+              onClick: () => excluir(),
               hide: !id,
             },
             {
@@ -119,10 +123,8 @@ const Component = (props) => {
       </Card>
     </div>
   );
-}
+};
 
-Component.propTypes = {};
-const mapStateToProps = ({ app: { usuario } }) => ({ usuario });
 const mapDispatchToProps = ({ message });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(() => { }, mapDispatchToProps)(Component);

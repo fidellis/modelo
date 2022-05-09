@@ -4,22 +4,28 @@ import { setFilter } from '~/store/filter';
 import DataTable from '~/components/data-table/DataTable';
 import NavigationButton from '~/components/NavigationButton';
 
-const Component = props => (
+const Component = ({ history, filter }) => (
   <div>
     <DataTable
       url="/teste"
-      params={{ include: ['usuarioInclusao'], order: ['nome'] }}
-      onClick={({ row }) => props.history.push(`/teste/${row.id}`)}
+      params={{ ...filter.teste, order: ['nome'] }}
+      onClick={({ row }) => history.push(`/teste/${row.id}`)}
       columns={{
         id: {
           label: '#',
           search: true,
-          width: 200,
+          width: 100,
         },
         nome: {
-          label: 'Teste',
+          label: 'Nome',
           search: true,
+        },
+        'tipo.nome': {
+          label: 'Tipo',
+          width: 200,
           lookup: true,
+          search: true,
+          searchValue: ['Tipo 2']
         },
         'usuarioInclusao.nome': {
           label: 'Usuário',
@@ -36,7 +42,7 @@ const Component = props => (
 
     <NavigationButton buttons={[{
       label: 'Adicionar Teste',
-      onClick: () => props.history.push('/teste/0'),
+      onClick: () => history.push('/teste/0'),
     }]}
     />
   </div>

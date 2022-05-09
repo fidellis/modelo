@@ -73,7 +73,7 @@ class Formulario extends Component {
         </div>
       </div>
     );
-  }
+  };
 }
 
 Formulario.propTypes = {

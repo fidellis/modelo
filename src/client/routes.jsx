@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Testes from '~/pages/List';
-import TesteForm from '~/pages/Form';
+import Testes from '~/pages/teste/List';
+import TesteForm from '~/pages/teste/Form';
 
 const isDev = process.env.AMBIENTE !== 'producao';
 

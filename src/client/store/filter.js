@@ -4,7 +4,7 @@ export const clearFilters = () => dispatch => dispatch({ type: 'CLEAR_FILTERS', 
 
 const initialState = {
     teste: {
-        id: 1,
+        //tipo_id: 1,
     },
 };
 
