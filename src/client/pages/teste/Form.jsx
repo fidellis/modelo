@@ -39,7 +39,7 @@ const Component = ({ match, message, history }) => {
 
   async function excluir() {
     if (confirm('Excluir?')) {
-      const response = await destroy(`/teste/${id}`);
+      const response = await destroy(`/teste/teste/${id}`);
       if (response) {
         message('Excluído com sucesso');
         voltar();
