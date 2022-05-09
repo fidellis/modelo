@@ -21,13 +21,13 @@ const Component = ({ history, filter, ...props }) => (
           label: 'Nome',
           search: true,
         },
-        'tipo.nome': {
-          label: 'Tipo',
-          width: 200,
-          lookup: true,
-          search: true,
-          searchValue: ['Tipo 2']
-        },
+        // 'tipo.nome': {
+        //   label: 'Tipo',
+        //   width: 200,
+        //   lookup: true,
+        //   search: true,
+        //   searchValue: ['Tipo 2']
+        // },
         'usuarioInclusao.nome': {
           label: 'Usuário',
           search: true,

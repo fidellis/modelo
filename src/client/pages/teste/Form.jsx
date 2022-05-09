@@ -16,8 +16,7 @@ const Component = ({ match, message, history }) => {
   const [data, setData] = useState({ usuarioInclusao: {} });
 
   async function change() {
-    console.log('id', id)
-    const response = await getData(`/teste/${id}`);
+    const response = await getData(`/teste/teste/${id}`);
     setData(response);
   }
 

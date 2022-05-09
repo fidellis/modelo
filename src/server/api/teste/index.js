@@ -14,7 +14,7 @@ module.exports = (router) => {
     }
   });
 
-  router.get('/:id', async (req, res, next) => {
+  router.get('/teste/:id', async (req, res, next) => {
     const params = paramsConverter(Teste, req);
     try {
       const response = await Teste.scope('usuarioInclusao', 'tipo').findById(req.params.id, params);
