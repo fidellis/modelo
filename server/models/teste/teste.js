@@ -16,6 +16,10 @@ var _version = require('common/sequelize/version');
 
 var _version2 = _interopRequireDefault(_version);
 
+var _usuario = require('common/models/portal/usuario');
+
+var _usuario2 = _interopRequireDefault(_usuario);
+
 var _tipo = require('./tipo');
 
 var _tipo2 = _interopRequireDefault(_tipo);
@@ -65,6 +69,10 @@ const Model = _sequelize2.default.define('Teste', {
     allowNull: true
   }
 }, {
+  scopes: {
+    usuarioInclusao: { include: [{ model: _usuario2.default, as: 'usuarioInclusao' }] },
+    tipo: params => ({ include: [{ model: _tipo2.default, as: 'tipo' }] })
+  },
   schema: 'teste',
   tableName: 'teste'
 });

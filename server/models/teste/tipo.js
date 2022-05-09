@@ -36,6 +36,6 @@ const Model = _sequelize2.default.define('Tipo', {
   tableName: 'tipo'
 });
 
-Model.afterSync(() => Promise.all([Model.upsert({ id: 1, nome: 'x​' })]));
+Model.afterSync(() => Promise.all([Model.upsert({ id: 1, nome: 'Tipo 1​' }), Model.upsert({ id: 2, nome: 'Tipo 2' }), Model.upsert({ id: 3, nome: 'Tipo 3' })]));
 
 exports.default = Model;
