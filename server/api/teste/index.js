@@ -50,7 +50,7 @@ module.exports = router => {
     };
 
     try {
-      let record = await Teste.find({ where: { id: { $notIn: [data.id], nome: data.nome } } });
+      let record = await Teste.find({ where: { id: { $notIn: [data.id] }, nome: data.nome } });
       if (record) return res.status(400).send({ msg: `${record.nome} já cadastrado.` });
 
       const response = await Teste.build(data, { isNewRecord }).save();
